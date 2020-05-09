@@ -71,6 +71,22 @@ public class MainScreenController implements Initializable {
 
     public void onActionSearchPartButton(ActionEvent actionEvent) {
 
+        String searchText = partSearchText.getText();
+
+        ObservableList<Part> parts = lookupPart(searchText);
+
+        if(parts.size() == 0) {
+            try{
+                int partNumber = Integer.parseInt(searchText);
+                Part partMatch = lookupPart(partNumber);
+                if (partMatch != null){
+                    parts.add(partMatch);
+                }
+            }
+            catch (NumberFormatException e) {
+                //ignore
+            }
+        }
 
 
     }
