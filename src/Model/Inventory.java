@@ -20,13 +20,6 @@ public class Inventory {
 
     public static Part lookupPart(int partId) {
 
-        //FIXME:
-//        for (Part part: Inventory.getAllParts()) {
-//            if (part.getId() == partId) {
-//                return part;
-//            }
-//        }
-
         if (!(Inventory.getAllFilteredParts().isEmpty())) {
             Inventory.getAllFilteredParts().clear();
         }
