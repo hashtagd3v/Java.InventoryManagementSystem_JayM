@@ -7,8 +7,8 @@ public class Inventory {
 
     private static ObservableList<Part> allParts = FXCollections.observableArrayList();
     private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
-    private static ObservableList<Part> lookupPart = FXCollections.observableArrayList();
-    private static ObservableList<Product> lookupProduct = FXCollections.observableArrayList();
+    public static ObservableList<Part> lookupPart = FXCollections.observableArrayList();
+    public static ObservableList<Product> lookupProduct = FXCollections.observableArrayList();
 
     public static void addPart(Part newPart) {
         allParts.add(newPart);
@@ -20,11 +20,23 @@ public class Inventory {
 
     public static Part lookupPart(int partId) {
 
-        for (Part part: Inventory.getAllParts()) {
+        //FIXME:
+//        for (Part part: Inventory.getAllParts()) {
+//            if (part.getId() == partId) {
+//                return part;
+//            }
+//        }
+
+        if (!(Inventory.getAllFilteredParts().isEmpty())) {
+            Inventory.getAllFilteredParts().clear();
+        }
+
+        for (Part part : Inventory.getAllParts()) {
             if (part.getId() == partId) {
-                return part;
+                Inventory.getAllFilteredParts().add(part);
             }
         }
+
         return null;
 
     }
@@ -46,7 +58,7 @@ public class Inventory {
         }
 
         for (Part part : Inventory.getAllParts()) {
-            if (part.getName().contains(partName)) {
+            if (part.getName().contains(partName.toUpperCase())) {
                 Inventory.getAllFilteredParts().add(part);
             }
         }
@@ -66,7 +78,7 @@ public class Inventory {
         }
 
         for (Product product: Inventory.getAllProducts()) {
-            if (product.getName().contains(productName)) {
+            if (product.getName().contains(productName.toUpperCase())) {
                 Inventory.getAllFilteredProducts().add(product);
             }
         }

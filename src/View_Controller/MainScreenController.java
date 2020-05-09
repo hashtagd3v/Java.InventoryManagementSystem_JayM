@@ -71,7 +71,30 @@ public class MainScreenController implements Initializable {
 
     public void onActionSearchPartButton(ActionEvent actionEvent) {
 
+        String searchText = partSearchText.getText().toString().trim().toUpperCase();
 
+        if(searchText == null) {
+            partTableView.setItems(getAllParts());
+        }
+
+        int counter;
+        boolean pureTextOnly = false;
+        for (counter = 0; counter < searchText.length(); counter++) {
+            if (Character.isLetter(searchText.charAt(counter))) {
+                pureTextOnly = true;
+            } else {
+                pureTextOnly = false;
+            }
+        }
+
+        if(pureTextOnly) {
+            lookupPart(searchText);
+        } else {
+            int valueOfText;
+            valueOfText = Integer.parseInt(partSearchText.getText());
+            lookupPart(valueOfText);
+        }
+        partTableView.setItems(getAllFilteredParts());
 
     }
 
@@ -101,7 +124,9 @@ public class MainScreenController implements Initializable {
 
     public void onActionSearchProductButton(ActionEvent actionEvent) {
 
-
+        String searchText = productSearchText.getText().toString().trim().toUpperCase();
+        lookupProduct(searchText);
+        productTableView.setItems(getAllFilteredProducts());
 
     }
 

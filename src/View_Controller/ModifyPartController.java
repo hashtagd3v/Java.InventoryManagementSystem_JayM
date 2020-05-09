@@ -96,10 +96,10 @@ public class ModifyPartController implements Initializable {
 
         if (inHouseRadioBtn.isSelected()) {
             modifyPartMachineCompanyLabel.setText("Machine ID");
-            modifyPartMachineCompanyText.setText("Machine ID");
+            modifyPartMachineCompanyText.setPromptText("Machine ID");
         } else if (outSourcedRadioBtn.isSelected()) {
             modifyPartMachineCompanyLabel.setText("Company Name");
-            modifyPartMachineCompanyText.setText("Comp Nm");
+            modifyPartMachineCompanyText.setPromptText("Comp Nm");
         }
 
     }
