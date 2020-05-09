@@ -124,7 +124,7 @@ public class MainScreenController implements Initializable {
 
     public void onActionPartDeleteButton(ActionEvent actionEvent) {
 
-
+        //TODO
 
     }
 
@@ -186,7 +186,7 @@ public class MainScreenController implements Initializable {
 
     public void onActionProductDeleteButton(ActionEvent actionEvent) {
 
-
+        //TODO
 
     }
 
