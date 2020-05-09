@@ -36,11 +36,16 @@ public class Inventory {
 
     public static Product lookupProduct(int productId) {
 
-        for (Product product: Inventory.getAllProducts()) {
+        if (!(Inventory.getAllFilteredProducts().isEmpty())) {
+            Inventory.getAllFilteredProducts().clear();
+        }
+
+        for (Product product : Inventory.getAllProducts()) {
             if (product.getId() == productId) {
-                return product;
+                Inventory.getAllFilteredProducts().add(product);
             }
         }
+
         return null;
     }
 
