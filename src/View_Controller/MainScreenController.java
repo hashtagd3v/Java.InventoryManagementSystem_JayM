@@ -1,11 +1,8 @@
 package View_Controller;
 
-import Model.Inventory;
 import Model.Part;
 import Model.Product;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -15,11 +12,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Observable;
 import java.util.ResourceBundle;
 
 import static Model.Inventory.*;
@@ -71,7 +68,39 @@ public class MainScreenController implements Initializable {
 
     public void onActionSearchPartButton(ActionEvent actionEvent) {
 
+        String searchText = partSearchText.getText().toString().trim().toUpperCase();
 
+        if(searchText.isEmpty()) {
+            partTableView.setItems(getAllParts());
+        }
+
+        int counter;
+        boolean pureTextOnly = false;
+        for (counter = 0; counter < searchText.length(); counter++) {
+            if (Character.isLetter(searchText.charAt(counter))) {
+                pureTextOnly = true;
+                break;
+            } else {
+                pureTextOnly = false;
+            }
+        }
+
+        if(pureTextOnly) {
+            lookupPart(searchText);
+        } else {
+            try {
+                int valueOfText;
+                valueOfText = Integer.parseInt(searchText);
+                lookupPart(valueOfText);
+            } catch (NumberFormatException e) {
+                //ignore exception
+            }
+        }
+        partTableView.setItems(getAllFilteredParts());
+
+        if (getAllFilteredParts().isEmpty()) {
+            partTableView.setItems(getAllParts());
+        }
 
     }
 
@@ -101,7 +130,39 @@ public class MainScreenController implements Initializable {
 
     public void onActionSearchProductButton(ActionEvent actionEvent) {
 
+        String searchText = productSearchText.getText().toString().trim().toUpperCase();
 
+        if(searchText.isEmpty()) {
+            productTableView.setItems(getAllProducts());
+        }
+
+        int counter;
+        boolean pureTextOnly = false;
+        for (counter = 0; counter < searchText.length(); counter++) {
+            if (Character.isLetter(searchText.charAt(counter))) {
+                pureTextOnly = true;
+                break;
+            } else {
+                pureTextOnly = false;
+            }
+        }
+
+        if(pureTextOnly) {
+            lookupProduct(searchText);
+        } else {
+            try {
+                int valueOfText;
+                valueOfText = Integer.parseInt(searchText); //FIXME!
+                lookupProduct(valueOfText);
+            } catch (NumberFormatException e) {
+                //ignore exception
+            }
+        }
+        productTableView.setItems(getAllFilteredProducts());
+
+        if (getAllFilteredProducts().isEmpty()) {
+            productTableView.setItems(getAllProducts());
+        }
 
     }
 
@@ -135,4 +196,17 @@ public class MainScreenController implements Initializable {
 
     }
 
+    public void onActionPartText(MouseEvent actionEvent) {
+
+        getAllFilteredParts().clear();
+        partTableView.setItems(getAllParts());
+
+    }
+
+    public void onActionProductText(MouseEvent actionEvent) {
+
+        getAllFilteredProducts().clear();
+        productTableView.setItems(getAllProducts());
+
+    }
 }
