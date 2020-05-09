@@ -73,7 +73,7 @@ public class MainScreenController implements Initializable {
 
         String searchText = partSearchText.getText().toString().trim().toUpperCase();
 
-        if(searchText == null) {
+        if(searchText.isEmpty()) {
             partTableView.setItems(getAllParts());
         }
 
@@ -82,6 +82,7 @@ public class MainScreenController implements Initializable {
         for (counter = 0; counter < searchText.length(); counter++) {
             if (Character.isLetter(searchText.charAt(counter))) {
                 pureTextOnly = true;
+                break;
             } else {
                 pureTextOnly = false;
             }
@@ -90,11 +91,19 @@ public class MainScreenController implements Initializable {
         if(pureTextOnly) {
             lookupPart(searchText);
         } else {
-            int valueOfText;
-            valueOfText = Integer.parseInt(partSearchText.getText());
-            lookupPart(valueOfText);
+            try {
+                int valueOfText;
+                valueOfText = Integer.parseInt(partSearchText.getText());
+                lookupPart(valueOfText);
+            } catch (NumberFormatException e) {
+                //ignore exception
+            }
         }
         partTableView.setItems(getAllFilteredParts());
+
+        if (getAllFilteredParts().isEmpty()) {
+            partTableView.setItems(getAllParts());
+        }
 
     }
 
