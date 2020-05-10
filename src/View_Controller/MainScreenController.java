@@ -45,14 +45,12 @@ public class MainScreenController implements Initializable {
         //TODO: CONTINUE WORKING ON SEARCH, MODIFY AND DELETE.
 
         partTableView.setItems(getAllParts());
-//        partTableView.setItems(lookupPart("USB"));                                                            //FIXME
         partIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         partInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         productTableView.setItems(getAllProducts());
-//        productTableView.setItems(lookupProduct("Sub"));                                                      //FIXME
         productIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         productInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));

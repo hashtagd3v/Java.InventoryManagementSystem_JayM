@@ -89,6 +89,29 @@ public class Inventory {
 
     }
 
+    //SELECTS PART WHEN CLICKED:
+    public static Part selectPart(int id) {
+        for (Part part : Inventory.getAllParts()) {
+            if (part.getId() == id) {
+                return part;
+            }
+        }
+        return null;
+    }
+
+    //SELECTS PRODUCT WHEN CLICKED:
+    public static Product selectProduct(int id) {
+        for (Product product : Inventory.getAllProducts()) {
+            if(product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+    //TODO: ADD ONMOUSE CLICKED EVENT FOR TABLE ROWS WHEN CLICKED IN FXML.
+    //TODO: SET SELECT METHOD FOR THOSE TABLE ROWS.
+
     public static void updatePart(int index, Part selectedPart) {
 
     }
