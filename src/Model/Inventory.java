@@ -109,7 +109,7 @@ public class Inventory {
         return null;
     }
 
-    //TODO: ADD ONMOUSE CLICKED EVENT FOR TABLE ROWS WHEN CLICKED IN FXML.
+    //TODO: ADD ON MOUSE CLICKED EVENT FOR TABLE ROWS WHEN CLICKED IN FXML.
     //TODO: SET SELECT METHOD FOR THOSE TABLE ROWS.
 
     public static void updatePart(int index, Part selectedPart) {
