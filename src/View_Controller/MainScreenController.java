@@ -58,6 +58,8 @@ public class MainScreenController implements Initializable {
 
         //TODO WORK ON SELECTING AN ITEM IN TABLE VIEWS TO DELETE/MODIFY
 
+//        SAMPLE CODE:
+//        partTableView.getSelectionModel().select(selectPart(1));
 //        partTableView.getSelectionModel().select(Inventory.lookupPart(2));                                    //FIXME
 //        productTableView.getSelectionModel().select(Inventory.lookupProduct(1));                              //FIXME
 

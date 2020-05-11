@@ -114,21 +114,47 @@ public class Inventory {
 
     public static void updatePart(int index, Part selectedPart) {
 
+        int counter = -1;
+        for (Part part : Inventory.getAllParts()) {
+            counter++;
+            if(part.getId() == index) {
+                Inventory.getAllParts().set(counter, selectedPart);
+                return;
+            }
+        }
+
     }
 
     public static void updateProduct(int index, Product newProduct) {
+
+        int counter = -1;
+        for (Product product : Inventory.getAllProducts()) {
+            counter++;
+            if(product.getId() == index) {
+                Inventory.getAllProducts().set(counter, newProduct);
+                return;
+            }
+        }
 
     }
 
     public static boolean deletePart(Part selectedPart) {
 
-        //TODO change return statement
+        for(Part part : Inventory.getAllParts()) {
+            if (part == selectedPart) {
+                return Inventory.getAllParts().remove(part);
+            }
+        }
         return false;
     }
 
     public static boolean deleteProduct(Product selectedProduct) {
 
-        //TODO change return statement
+        for(Product product : Inventory.getAllProducts()) {
+            if (product == selectedProduct) {
+                return Inventory.getAllParts().remove(product);
+            }
+        }
         return false;
     }
 
