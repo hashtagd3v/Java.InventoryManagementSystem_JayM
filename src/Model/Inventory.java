@@ -109,7 +109,6 @@ public class Inventory {
         return null;
     }
 
-    //TODO: ADD ON MOUSE CLICKED EVENT FOR TABLE ROWS WHEN CLICKED IN FXML.
     //TODO: SET SELECT METHOD FOR THOSE TABLE ROWS.
 
     public static void updatePart(int index, Part selectedPart) {
@@ -152,7 +151,7 @@ public class Inventory {
 
         for(Product product : Inventory.getAllProducts()) {
             if (product == selectedProduct) {
-                return Inventory.getAllParts().remove(product);
+                return Inventory.getAllProducts().remove(product);
             }
         }
         return false;

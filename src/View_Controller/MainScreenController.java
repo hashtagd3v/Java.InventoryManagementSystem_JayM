@@ -1,5 +1,6 @@
 package View_Controller;
 
+import Model.Inventory;
 import Model.Part;
 import Model.Product;
 import javafx.event.ActionEvent;
@@ -115,6 +116,8 @@ public class MainScreenController implements Initializable {
 
     public void onActionPartModifyButton(ActionEvent actionEvent) throws IOException {
 
+        //TODO: WORK ON MODIFYING PARTS/PRODUCTS
+
         stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
         stage.setScene(new Scene(scene));
@@ -124,7 +127,7 @@ public class MainScreenController implements Initializable {
 
     public void onActionPartDeleteButton(ActionEvent actionEvent) {
 
-        //TODO
+        deletePart(partTableView.getSelectionModel().getSelectedItem());
 
     }
 
@@ -186,7 +189,7 @@ public class MainScreenController implements Initializable {
 
     public void onActionProductDeleteButton(ActionEvent actionEvent) {
 
-        //TODO
+        deleteProduct(productTableView.getSelectionModel().getSelectedItem());
 
     }
 
