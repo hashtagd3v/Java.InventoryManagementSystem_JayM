@@ -117,18 +117,24 @@ public class MainScreenController implements Initializable {
 
     public void onActionPartModifyButton(ActionEvent actionEvent) throws IOException {
 
-        //TODO: WORK ON MODIFYING PARTS/PRODUCTS
-        selectPart(partTableView.getSelectionModel().getSelectedIndex()); //returns Part type!
+        //USED TO TRANSFER DATA; CANNOT JUST SWITCH SCREENS:
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
+        loader.load();
 
-
-        //FIXME:
-        Inventory.updatePart(partTableView.getSelectionModel().getSelectedIndex(), partTableView.getSelectionModel().getSelectedItem());
-
-
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+//
+//        TODO: WORK ON MODIFYING PARTS/PRODUCTS
+//        selectPart(partTableView.getSelectionModel().getSelectedIndex()); //returns Part type!
+//
+//
+//        //FIXME:
+//        Inventory.updatePart(partTableView.getSelectionModel().getSelectedIndex(), partTableView.getSelectionModel().getSelectedItem());
+//
+//
+//        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+//        scene = FXMLLoader.load(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
+//        stage.setScene(new Scene(scene));
+//        stage.show();
 
     }
 
