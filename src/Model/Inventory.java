@@ -89,23 +89,71 @@ public class Inventory {
 
     }
 
+    //SELECTS PART WHEN CLICKED:
+    public static Part selectPart(int id) {
+        for (Part part : Inventory.getAllParts()) {
+            if (part.getId() == id) {
+                return part;
+            }
+        }
+        return null;
+    }
+
+    //SELECTS PRODUCT WHEN CLICKED:
+    public static Product selectProduct(int id) {
+        for (Product product : Inventory.getAllProducts()) {
+            if(product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+    //TODO: SET SELECT METHOD FOR THOSE TABLE ROWS.
+
     public static void updatePart(int index, Part selectedPart) {
+
+        int counter = -1;
+        for (Part part : Inventory.getAllParts()) {
+            counter++;
+            if(part.getId() == index) {
+                Inventory.getAllParts().set(counter, selectedPart);
+                return;
+            }
+        }
 
     }
 
     public static void updateProduct(int index, Product newProduct) {
 
+        int counter = -1;
+        for (Product product : Inventory.getAllProducts()) {
+            counter++;
+            if(product.getId() == index) {
+                Inventory.getAllProducts().set(counter, newProduct);
+                return;
+            }
+        }
+
     }
 
     public static boolean deletePart(Part selectedPart) {
 
-        //TODO change return statement
+        for(Part part : Inventory.getAllParts()) {
+            if (part == selectedPart) {
+                return Inventory.getAllParts().remove(part);
+            }
+        }
         return false;
     }
 
     public static boolean deleteProduct(Product selectedProduct) {
 
-        //TODO change return statement
+        for(Product product : Inventory.getAllProducts()) {
+            if (product == selectedProduct) {
+                return Inventory.getAllProducts().remove(product);
+            }
+        }
         return false;
     }
 
