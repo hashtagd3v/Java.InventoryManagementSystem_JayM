@@ -3,6 +3,7 @@ package View_Controller;
 import Model.Inventory;
 import Model.Part;
 import Model.Product;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -117,6 +118,12 @@ public class MainScreenController implements Initializable {
     public void onActionPartModifyButton(ActionEvent actionEvent) throws IOException {
 
         //TODO: WORK ON MODIFYING PARTS/PRODUCTS
+        selectPart(partTableView.getSelectionModel().getSelectedIndex()); //returns Part type!
+
+
+        //FIXME:
+        Inventory.updatePart(partTableView.getSelectionModel().getSelectedIndex(), partTableView.getSelectionModel().getSelectedItem());
+
 
         stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
