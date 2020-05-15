@@ -69,4 +69,5 @@ public abstract class Part {
         public void setMax(int max) {
             this.max = max;
         }
+
     }
