@@ -122,19 +122,13 @@ public class MainScreenController implements Initializable {
         loader.setLocation(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
         loader.load();
 
-//
-//        TODO: WORK ON MODIFYING PARTS/PRODUCTS
-//        selectPart(partTableView.getSelectionModel().getSelectedIndex()); //returns Part type!
-//
-//
-//        //FIXME:
-//        Inventory.updatePart(partTableView.getSelectionModel().getSelectedIndex(), partTableView.getSelectionModel().getSelectedItem());
-//
-//
-//        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-//        scene = FXMLLoader.load(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
-//        stage.setScene(new Scene(scene));
-//        stage.show();
+        ModifyPartController MODController = loader.getController();
+        MODController.getPart(partTableView.getSelectionModel().getSelectedItem());
+
+        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+        Parent scene = loader.getRoot();
+        stage.setScene(new Scene(scene));
+        stage.show();
 
     }
 
