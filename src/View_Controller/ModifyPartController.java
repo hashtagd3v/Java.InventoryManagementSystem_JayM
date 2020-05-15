@@ -5,7 +5,6 @@ import Model.Inventory;
 import Model.OutSourcedPart;
 import Model.Part;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -32,37 +31,39 @@ public class ModifyPartController implements Initializable {
 
     Stage stage;
     Parent scene;
+    private int currentId;
+
+    //TODO: WORK ON INCREMENTING IDS AND RETAINING CURRENT ID.
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //DEFAULT VIEW IS IN-HOUSE RADIO BUTTON CLICKED WITH TEXT MACHINE ID:
-        modifyPartMachineCompanyLabel.setText("Machine ID");
 
-        isInHouseOrOutSourcedClicked();
 
     }
 
     public void onActionModifyPartSaveButton(ActionEvent actionEvent) throws IOException {
 
-
-
 //        GET TEXT FROM TEXT FIELDS:
-//        int id = 0;
-//        String name = modifyPartNameText.getText();
-//        int stock = Integer.parseInt(modifyPartInvText.getText());
-//        double price = Double.parseDouble(modifyPartPriceText.getText());
-//        int max = Integer.parseInt(modifyPartMaxText.getText());
-//        int min = Integer.parseInt(modifyPartMinText.getText());
-//
+        int id = 0;
+        String name = modifyPartNameText.getText();
+        int stock = Integer.parseInt(modifyPartInvText.getText());
+        double price = Double.parseDouble(modifyPartPriceText.getText());
+        int max = Integer.parseInt(modifyPartMaxText.getText());
+        int min = Integer.parseInt(modifyPartMinText.getText());
+
 //        //DETERMINE IF IN-HOUSE OR OUTSOURCED PART:
-//        if (inHouseRadioBtn.isSelected()) {
-//            int machineId = Integer.parseInt(modifyPartMachineCompanyLabel.getText());
-//            Inventory.addPart(new InHousePart(id, name, price, stock, min, max, machineId));
-//        } else if (outSourcedRadioBtn.isSelected()){
-//            String companyName = modifyPartMachineCompanyLabel.getText();
-//            Inventory.addPart(new OutSourcedPart(id, name, price, stock, min, max, companyName));
-//        }
+        try {
+            if (inHouseRadioBtn.isSelected()) {
+                int machineId = Integer.parseInt(modifyPartMachineCompanyText.getText());
+                Inventory.addPart(new InHousePart(id, name, price, stock, min, max, machineId));
+            } else if (outSourcedRadioBtn.isSelected()) {
+                String companyName = modifyPartMachineCompanyText.getText();
+                Inventory.addPart(new OutSourcedPart(id, name, price, stock, min, max, companyName));
+            }
+        } catch (NumberFormatException e) {
+            //ignore exception due to parseInt()
+        }
 
         //TODO DELETE OLD OBJECT SELECTED BEFORE SAVING NEW PART!!!
 
@@ -74,7 +75,8 @@ public class ModifyPartController implements Initializable {
     }
 
     public void getPart(Part part) {
-        int id = part.getId();
+
+        int currentId = part.getId();
         modifyPartNameText.setText(part.getName());
         modifyPartInvText.setText(String.valueOf(part.getStock()));
         modifyPartPriceText.setText(String.valueOf(part.getPrice()));
@@ -82,10 +84,16 @@ public class ModifyPartController implements Initializable {
         modifyPartMinText.setText(String.valueOf(part.getMin()));
 
         if (part instanceof InHousePart) {
-            modifyPartMachineCompanyText.setText(String.valueOf(((InHousePart)part).getMachineId()));                   //---- CASTS PART INTO IN HOUSE PART
+            inHouseRadioBtn.setSelected(true);
+            modifyPartMachineCompanyText.setText(String.valueOf(((InHousePart) part).getMachineId()));                   //---- CASTS PART INTO IN HOUSE PART
+            modifyPartMachineCompanyLabel.setText("Machine ID: ");
         } else if (part instanceof  OutSourcedPart) {
+            outSourcedRadioBtn.setSelected(true);
             modifyPartMachineCompanyText.setText(((OutSourcedPart) part).getCompanyName());                             //---- CASTS PART INTO OUTSOURCE PART
+            modifyPartMachineCompanyLabel.setText("Company Name: ");
         }
+
+        Inventory.deletePart(part);
     }
 
     public void onActionModifyPartCancelButton(ActionEvent actionEvent) throws IOException {

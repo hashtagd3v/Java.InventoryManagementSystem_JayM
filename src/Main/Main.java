@@ -23,7 +23,7 @@ public class Main extends Application {
     public static void main(String[] args) {
 
         //Parts:
-        InHousePart part1 = new InHousePart(1, "Part A1", 3.99, 5, 1, 100, 3133);
+        InHousePart part1 = new InHousePart(1, "Part A", 3.99, 5, 1, 100, 3133);
         OutSourcedPart part2 = new OutSourcedPart(2, "Part B", 2.00, 3, 1, 50, "MicroCenter");
         OutSourcedPart part3 = new OutSourcedPart(3, "Part C", 29.99, 10, 5, 30, "Samsung");
 

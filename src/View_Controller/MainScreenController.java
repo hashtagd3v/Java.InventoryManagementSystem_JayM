@@ -43,9 +43,6 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //TODO: REMOVE TESTED CODES HERE/CLEAN UP CODE.
-        //TODO: CONTINUE WORKING ON SEARCH, MODIFY AND DELETE.
-
         partTableView.setItems(getAllParts());
         partIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -57,14 +54,6 @@ public class MainScreenController implements Initializable {
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         productInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
         productPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-        //TODO WORK ON SELECTING AN ITEM IN TABLE VIEWS TO DELETE/MODIFY
-
-//        SAMPLE CODE:
-//        partTableView.getSelectionModel().select(selectPart(1));
-//        partTableView.getSelectionModel().select(Inventory.lookupPart(2));                                    //FIXME
-//        productTableView.getSelectionModel().select(Inventory.lookupProduct(1));                              //FIXME
-
 
     }
 
