@@ -14,7 +14,7 @@ public abstract class Part {
 
     //FIXME: FOR MODIFYING PARTS
     public Part(int id, String name, double price, int stock, int min, int max) {
-            this.id = autoId.get();
+            this.id = autoId.incrementAndGet();
             this.name = name;
             this.price = price;
             this.stock = stock;
