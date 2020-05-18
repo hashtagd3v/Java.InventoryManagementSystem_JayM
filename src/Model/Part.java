@@ -10,11 +10,9 @@ public abstract class Part {
     private int stock;
     private int min;
     private int max;
-    public static AtomicInteger autoId = new AtomicInteger();
 
-    //FIXME: FOR MODIFYING PARTS
     public Part(int id, String name, double price, int stock, int min, int max) {
-            this.id = autoId.incrementAndGet();
+            this.id = id++;
             this.name = name;
             this.price = price;
             this.stock = stock;
@@ -27,7 +25,7 @@ public abstract class Part {
         }
 
         public void setId(int id) {
-            this.id = id;
+            this.id = id++;
         }
 
         public String getName() {

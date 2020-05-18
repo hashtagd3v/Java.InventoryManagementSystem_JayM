@@ -32,8 +32,7 @@ public class ModifyPartController implements Initializable {
     Stage stage;
     Parent scene;
     private int currentId;
-
-    //TODO: WORK ON INCREMENTING IDS AND RETAINING CURRENT ID.
+    private int id;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -45,7 +44,7 @@ public class ModifyPartController implements Initializable {
     public void onActionModifyPartSaveButton(ActionEvent actionEvent) throws IOException {
 
         //GET TEXT FROM TEXT FIELDS:
-        int id = 0;
+        id = currentId;
         String name = modifyPartNameText.getText();
         int stock = Integer.parseInt(modifyPartInvText.getText());
         double price = Double.parseDouble(modifyPartPriceText.getText());
@@ -75,8 +74,8 @@ public class ModifyPartController implements Initializable {
     }
 
     public void getPart(Part part) {
-
-        int currentId = part.getId();
+        currentId = part.getId();
+        id = currentId;
         modifyPartNameText.setText(part.getName());
         modifyPartInvText.setText(String.valueOf(part.getStock()));
         modifyPartPriceText.setText(String.valueOf(part.getPrice()));
