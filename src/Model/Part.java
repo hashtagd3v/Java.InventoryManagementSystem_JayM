@@ -1,5 +1,7 @@
 package Model;
 
+import View_Controller.ModifyPartController;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Part {
@@ -10,9 +12,10 @@ public abstract class Part {
     private int stock;
     private int min;
     private int max;
+    public static AtomicInteger autoId = new AtomicInteger(0);
 
     public Part(int id, String name, double price, int stock, int min, int max) {
-            this.id = id++;
+            setId(id);
             this.name = name;
             this.price = price;
             this.stock = stock;
@@ -25,7 +28,15 @@ public abstract class Part {
         }
 
         public void setId(int id) {
-            this.id = id++;
+            if (ModifyPartController.keepId <= 0) {
+                id = autoId.incrementAndGet();
+            }
+            else if(id != ModifyPartController.keepId) {
+                id = autoId.incrementAndGet();
+            } else {
+                id = ModifyPartController.keepId;
+            }
+            this.id = id;
         }
 
         public String getName() {

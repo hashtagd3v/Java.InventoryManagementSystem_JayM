@@ -32,7 +32,7 @@ public class ModifyPartController implements Initializable {
     Stage stage;
     Parent scene;
     private int currentId;
-    private int id;
+    public static int keepId;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -44,7 +44,8 @@ public class ModifyPartController implements Initializable {
     public void onActionModifyPartSaveButton(ActionEvent actionEvent) throws IOException {
 
         //GET TEXT FROM TEXT FIELDS:
-        id = currentId;
+        keepId = currentId;
+        System.out.println("keepId in Save Handler: " + keepId);
         String name = modifyPartNameText.getText();
         int stock = Integer.parseInt(modifyPartInvText.getText());
         double price = Double.parseDouble(modifyPartPriceText.getText());
@@ -55,16 +56,14 @@ public class ModifyPartController implements Initializable {
         try {
             if (inHouseRadioBtn.isSelected()) {
                 int machineId = Integer.parseInt(modifyPartMachineCompanyText.getText());
-                Inventory.addPart(new InHousePart(id, name, price, stock, min, max, machineId));
+                Inventory.addPart(new InHousePart(keepId, name, price, stock, min, max, machineId));
             } else if (outSourcedRadioBtn.isSelected()) {
                 String companyName = modifyPartMachineCompanyText.getText();
-                Inventory.addPart(new OutSourcedPart(id, name, price, stock, min, max, companyName));
+                Inventory.addPart(new OutSourcedPart(keepId, name, price, stock, min, max, companyName));
             }
         } catch (NumberFormatException e) {
             //ignore exception due to parseInt()
         }
-
-        //TODO DELETE OLD OBJECT SELECTED BEFORE SAVING NEW PART!!!
 
         stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
@@ -75,7 +74,8 @@ public class ModifyPartController implements Initializable {
 
     public void getPart(Part part) {
         currentId = part.getId();
-        id = currentId;
+//        id = currentId;
+        System.out.println("currentId in getPart(): " + currentId);
         modifyPartNameText.setText(part.getName());
         modifyPartInvText.setText(String.valueOf(part.getStock()));
         modifyPartPriceText.setText(String.valueOf(part.getPrice()));
