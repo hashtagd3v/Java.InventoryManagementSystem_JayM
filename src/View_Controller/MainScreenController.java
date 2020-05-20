@@ -3,6 +3,7 @@ package View_Controller;
 import Model.Inventory;
 import Model.Part;
 import Model.Product;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -42,9 +43,6 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //TODO: REMOVE TESTED CODES HERE/CLEAN UP CODE.
-        //TODO: CONTINUE WORKING ON SEARCH, MODIFY AND DELETE.
-
         partTableView.setItems(getAllParts());
         partIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -56,14 +54,6 @@ public class MainScreenController implements Initializable {
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         productInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
         productPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-        //TODO WORK ON SELECTING AN ITEM IN TABLE VIEWS TO DELETE/MODIFY
-
-//        SAMPLE CODE:
-//        partTableView.getSelectionModel().select(selectPart(1));
-//        partTableView.getSelectionModel().select(Inventory.lookupPart(2));                                    //FIXME
-//        productTableView.getSelectionModel().select(Inventory.lookupProduct(1));                              //FIXME
-
 
     }
 
@@ -116,10 +106,16 @@ public class MainScreenController implements Initializable {
 
     public void onActionPartModifyButton(ActionEvent actionEvent) throws IOException {
 
-        //TODO: WORK ON MODIFYING PARTS/PRODUCTS
+        //USED TO TRANSFER DATA; CANNOT JUST SWITCH SCREENS:
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
+        loader.load();
+
+        ModifyPartController MODController = loader.getController();
+        MODController.getPart(partTableView.getSelectionModel().getSelectedItem());
 
         stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
+        Parent scene = loader.getRoot();
         stage.setScene(new Scene(scene));
         stage.show();
 

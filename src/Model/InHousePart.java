@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class InHousePart extends Part {
 
     private int machineId;

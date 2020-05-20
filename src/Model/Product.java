@@ -13,7 +13,7 @@ public class Product {
     private int stock;
     private int min;
     private int max;
-    private static AtomicInteger autoId = new AtomicInteger(-1);
+    private static AtomicInteger autoId = new AtomicInteger(0);
 
     public Product(int id, String name, double price, int stock, int min, int max) {
         this.id = autoId.incrementAndGet();

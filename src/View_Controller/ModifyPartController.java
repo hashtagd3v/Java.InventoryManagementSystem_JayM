@@ -3,8 +3,8 @@ package View_Controller;
 import Model.InHousePart;
 import Model.Inventory;
 import Model.OutSourcedPart;
+import Model.Part;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -31,21 +31,21 @@ public class ModifyPartController implements Initializable {
 
     Stage stage;
     Parent scene;
+    private int currentId;
+    public static int keepId;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //DEFAULT VIEW IS IN-HOUSE RADIO BUTTON CLICKED WITH TEXT MACHINE ID:
-        modifyPartMachineCompanyLabel.setText("Machine ID");
 
-        isInHouseOrOutSourcedClicked();
 
     }
 
     public void onActionModifyPartSaveButton(ActionEvent actionEvent) throws IOException {
 
         //GET TEXT FROM TEXT FIELDS:
-        int id = 0;
+        keepId = currentId;
+        System.out.println("keepId in Save Handler: " + keepId);
         String name = modifyPartNameText.getText();
         int stock = Integer.parseInt(modifyPartInvText.getText());
         double price = Double.parseDouble(modifyPartPriceText.getText());
@@ -53,21 +53,46 @@ public class ModifyPartController implements Initializable {
         int min = Integer.parseInt(modifyPartMinText.getText());
 
         //DETERMINE IF IN-HOUSE OR OUTSOURCED PART:
-        if (inHouseRadioBtn.isSelected()) {
-            int machineId = Integer.parseInt(modifyPartMachineCompanyLabel.getText());
-            Inventory.addPart(new InHousePart(id, name, price, stock, min, max, machineId));
-        } else if (outSourcedRadioBtn.isSelected()){
-            String companyName = modifyPartMachineCompanyLabel.getText();
-            Inventory.addPart(new OutSourcedPart(id, name, price, stock, min, max, companyName));
+        try {
+            if (inHouseRadioBtn.isSelected()) {
+                int machineId = Integer.parseInt(modifyPartMachineCompanyText.getText());
+                Inventory.addPart(new InHousePart(keepId, name, price, stock, min, max, machineId));
+            } else if (outSourcedRadioBtn.isSelected()) {
+                String companyName = modifyPartMachineCompanyText.getText();
+                Inventory.addPart(new OutSourcedPart(keepId, name, price, stock, min, max, companyName));
+            }
+        } catch (NumberFormatException e) {
+            //ignore exception due to parseInt()
         }
-
-        //TODO DELETE OLD OBJECT SELECTED BEFORE SAVING NEW PART!!!
 
         stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
 
+    }
+
+    public void getPart(Part part) {
+        currentId = part.getId();
+//        id = currentId;
+        System.out.println("currentId in getPart(): " + currentId);
+        modifyPartNameText.setText(part.getName());
+        modifyPartInvText.setText(String.valueOf(part.getStock()));
+        modifyPartPriceText.setText(String.valueOf(part.getPrice()));
+        modifyPartMaxText.setText(String.valueOf(part.getMax()));
+        modifyPartMinText.setText(String.valueOf(part.getMin()));
+
+        if (part instanceof InHousePart) {
+            inHouseRadioBtn.setSelected(true);
+            modifyPartMachineCompanyText.setText(String.valueOf(((InHousePart) part).getMachineId()));                   //---- CASTS PART INTO IN HOUSE PART
+            modifyPartMachineCompanyLabel.setText("Machine ID: ");
+        } else if (part instanceof  OutSourcedPart) {
+            outSourcedRadioBtn.setSelected(true);
+            modifyPartMachineCompanyText.setText(((OutSourcedPart) part).getCompanyName());                             //---- CASTS PART INTO OUTSOURCE PART
+            modifyPartMachineCompanyLabel.setText("Company Name: ");
+        }
+
+        Inventory.deletePart(part);
     }
 
     public void onActionModifyPartCancelButton(ActionEvent actionEvent) throws IOException {
