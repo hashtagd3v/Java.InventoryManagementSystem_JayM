@@ -37,15 +37,13 @@ public class ModifyPartController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-
-
     }
 
     public void onActionModifyPartSaveButton(ActionEvent actionEvent) throws IOException {
 
         //GET TEXT FROM TEXT FIELDS:
         keepId = currentId;
-        System.out.println("keepId in Save Handler: " + keepId);
+        System.out.println("keepId in Save Handler: " + keepId); //-------------------   TEST
         String name = modifyPartNameText.getText();
         int stock = Integer.parseInt(modifyPartInvText.getText());
         double price = Double.parseDouble(modifyPartPriceText.getText());
@@ -74,8 +72,7 @@ public class ModifyPartController implements Initializable {
 
     public void getPart(Part part) {
         currentId = part.getId();
-//        id = currentId;
-        System.out.println("currentId in getPart(): " + currentId);
+        System.out.println("currentId in getPart(): " + currentId); //-------------------   TEST
         modifyPartNameText.setText(part.getName());
         modifyPartInvText.setText(String.valueOf(part.getStock()));
         modifyPartPriceText.setText(String.valueOf(part.getPrice()));
