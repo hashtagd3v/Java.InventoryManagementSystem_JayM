@@ -1,12 +1,13 @@
 package Model;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Product {
 
-    private ObservableList<Part> associatedParts;
+    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
     private String name;
     private double price;
@@ -16,7 +17,7 @@ public class Product {
     private static AtomicInteger autoId = new AtomicInteger(0);
 
     public Product(int id, String name, double price, int stock, int min, int max) {
-        this.id = autoId.incrementAndGet();
+        setId(id);
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -29,7 +30,12 @@ public class Product {
     }
 
     public void setId(int id) {
-        this.id = id;
+        // FIXME: change code because passing O as ID in Main.java
+            if(id <= 0) {
+                this.id = autoId.incrementAndGet();
+            } else {
+                this.id = id;
+            }
     }
 
     public String getName() {

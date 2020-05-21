@@ -1,7 +1,10 @@
 package View_Controller;
 
 import Model.Inventory;
+import Model.Part;
 import Model.Product;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,14 +15,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static Model.Inventory.getAllParts;
-import static Model.Inventory.getAllProducts;
+import static Model.Inventory.*;
+import static Model.Inventory.getAllFilteredParts;
 
 public class AddProductController implements Initializable {
     public TextField addProductIdText;
@@ -42,6 +46,7 @@ public class AddProductController implements Initializable {
 
     Stage stage;
     Parent scene;
+    private ObservableList<Part> selectedParts = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,17 +56,62 @@ public class AddProductController implements Initializable {
         addProductTopPartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         addProductTopInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         addProductTopPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-        addProductTableViewTop.setItems(getAllProducts());
+        addProductTableViewTop.setItems(getAllParts());
+
+        addProductBottomPartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        addProductBottomPartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        addProductBottomInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        addProductBottomPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        addProductTableViewBottom.setItems(selectedParts);
 
     }
 
     public void onActionAddProductSearchButton(ActionEvent actionEvent) {
+
+        String searchText = addProductSearchText.getText().trim().toUpperCase();
+
+        if(searchText.isEmpty()) {
+            addProductTableViewTop.setItems(getAllParts());
+        }
+
+        int counter;
+        boolean pureTextOnly = false;
+        for (counter = 0; counter < searchText.length(); counter++) {
+            if (Character.isLetter(searchText.charAt(counter))) {
+                pureTextOnly = true;
+                break;
+            } else {
+                pureTextOnly = false;
+            }
+        }
+
+        if(pureTextOnly) {
+            lookupPart(searchText);
+        } else {
+            try {
+                int valueOfText;
+                valueOfText = Integer.parseInt(searchText);
+                lookupPart(valueOfText);
+            } catch (NumberFormatException e) {
+                // ignore exception
+            }
+        }
+        addProductTableViewTop.setItems(getAllFilteredParts());
+
+        if (getAllFilteredParts().isEmpty()) {
+            addProductTableViewTop.setItems(getAllParts());
+        }
+
     }
 
     public void onActionAddProductAddButton(ActionEvent actionEvent) {
 
-        // TODO: WORK ON SELECTING PARTS FROM ALL PRODUCTS TABLE VIEW AND ADD TO ASSOCIATED PARTS TABLE VIEW.
-
+        Part associatedPart = (Part) addProductTableViewTop.getSelectionModel().getSelectedItem();
+        if(associatedPart == null) {
+            return;
+        } else {
+            selectedParts.add(associatedPart);
+        }
 
     }
 
@@ -94,6 +144,13 @@ public class AddProductController implements Initializable {
         scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
+
+    }
+
+    public void onMouseProductSearchText(MouseEvent mouseEvent) {
+
+        getAllFilteredParts().clear();
+        addProductTableViewTop.setItems(getAllParts());
 
     }
 

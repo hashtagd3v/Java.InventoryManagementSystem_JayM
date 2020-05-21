@@ -28,15 +28,11 @@ public abstract class Part {
         }
 
         public void setId(int id) {
-            if (ModifyPartController.keepId <= 0) {
-                id = autoId.incrementAndGet();
-            }
-            else if(id != ModifyPartController.keepId) {
-                id = autoId.incrementAndGet();
+            if(id <= 0) {
+                this.id = autoId.incrementAndGet();
             } else {
-                id = ModifyPartController.keepId;
+                this.id = id;
             }
-            this.id = id;
         }
 
         public String getName() {

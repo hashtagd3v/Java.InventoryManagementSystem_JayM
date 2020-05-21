@@ -32,7 +32,6 @@ public class ModifyPartController implements Initializable {
     Stage stage;
     Parent scene;
     private int currentId;
-    public static int keepId;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,26 +40,29 @@ public class ModifyPartController implements Initializable {
 
     public void onActionModifyPartSaveButton(ActionEvent actionEvent) throws IOException {
 
-        //GET TEXT FROM TEXT FIELDS:
-        keepId = currentId;
-        System.out.println("keepId in Save Handler: " + keepId); //-------------------   TEST
+        // GET TEXT FROM TEXT FIELDS:
         String name = modifyPartNameText.getText();
         int stock = Integer.parseInt(modifyPartInvText.getText());
         double price = Double.parseDouble(modifyPartPriceText.getText());
         int max = Integer.parseInt(modifyPartMaxText.getText());
         int min = Integer.parseInt(modifyPartMinText.getText());
 
-        //DETERMINE IF IN-HOUSE OR OUTSOURCED PART:
+        // DETERMINE IF IN-HOUSE OR OUTSOURCED PART:
         try {
+            Part oldPart = Inventory.selectPart(currentId);
             if (inHouseRadioBtn.isSelected()) {
                 int machineId = Integer.parseInt(modifyPartMachineCompanyText.getText());
-                Inventory.addPart(new InHousePart(keepId, name, price, stock, min, max, machineId));
+                Inventory.deletePart(oldPart);
+                Inventory.addPart(new InHousePart(currentId, name, price, stock, min, max, machineId));
             } else if (outSourcedRadioBtn.isSelected()) {
                 String companyName = modifyPartMachineCompanyText.getText();
-                Inventory.addPart(new OutSourcedPart(keepId, name, price, stock, min, max, companyName));
+                Inventory.deletePart(oldPart);
+                Inventory.addPart(new OutSourcedPart(currentId, name, price, stock, min, max, companyName));
             }
         } catch (NumberFormatException e) {
-            //ignore exception due to parseInt()
+            // FIXME: return error/pop up when wrong type of parameter is submitted!
+            return;
+            // ignore exception due to parseInt()
         }
 
         stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
@@ -72,7 +74,6 @@ public class ModifyPartController implements Initializable {
 
     public void getPart(Part part) {
         currentId = part.getId();
-        System.out.println("currentId in getPart(): " + currentId); //-------------------   TEST
         modifyPartNameText.setText(part.getName());
         modifyPartInvText.setText(String.valueOf(part.getStock()));
         modifyPartPriceText.setText(String.valueOf(part.getPrice()));
@@ -89,7 +90,6 @@ public class ModifyPartController implements Initializable {
             modifyPartMachineCompanyLabel.setText("Company Name: ");
         }
 
-        Inventory.deletePart(part);
     }
 
     public void onActionModifyPartCancelButton(ActionEvent actionEvent) throws IOException {
