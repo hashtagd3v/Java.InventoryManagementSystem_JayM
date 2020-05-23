@@ -1,8 +1,6 @@
 package View_Controller;
 
-import Model.Inventory;
-import Model.Part;
-import Model.Product;
+import Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -129,16 +127,7 @@ public class AddProductController implements Initializable {
 
     public void onActionAddProductSaveButton(ActionEvent actionEvent) throws IOException {
 
-        // GET TEXT FROM FIELDS:
-        int id = 0;
-        String name = addProductNameText.getText();
-        double price = Double.parseDouble(addProductPriceText.getText());
-        int stock = Integer.parseInt(addProductInvText.getText());
-        int min = Integer.parseInt(addProductMinText.getText());
-        int max = Integer.parseInt(addProductMaxText.getText());
-
-        // ADD/CREATE NEW PRODUCT:
-        Inventory.addProduct(new Product(id, name, price, stock, min, max));
+        saveProduct();
 
         stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
@@ -160,6 +149,28 @@ public class AddProductController implements Initializable {
 
         getAllFilteredParts().clear();
         addProductTableViewTop.setItems(getAllParts());
+
+    }
+
+
+    public void saveProduct() {
+
+        // GET TEXT FROM FIELDS:
+        int id = 0;
+        String name = addProductNameText.getText();
+        double price = Double.parseDouble(addProductPriceText.getText());
+        int stock = Integer.parseInt(addProductInvText.getText());
+        int min = Integer.parseInt(addProductMinText.getText());
+        int max = Integer.parseInt(addProductMaxText.getText());
+
+        Product product = (new Product(id, name, price, stock, min, max));
+
+        // ADD/CREATE NEW PRODUCT:
+        for (int i = 0; i < selectedParts.size(); i++) {
+            product.addAssociatedPart(selectedParts.get(i));
+        }
+
+        Inventory.addProduct(product);
 
     }
 

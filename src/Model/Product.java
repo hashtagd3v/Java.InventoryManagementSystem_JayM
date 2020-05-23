@@ -1,9 +1,12 @@
 package Model;
 
 import View_Controller.AddProductController;
+import View_Controller.ModifyPartController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Product {
@@ -79,6 +82,9 @@ public class Product {
     }
 
     public void addAssociatedPart(Part part) {
+
+        associatedParts.add(part);
+        return;
 
     }
 
