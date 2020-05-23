@@ -58,6 +58,7 @@ public class AddProductController implements Initializable {
         addProductTopPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         addProductTableViewTop.setItems(getAllParts());
 
+        // DISPLAY ASSOCIATED PARTS ON BOTTOM TABLE VIEW WHEN ADD BUTTON IS CLICKED:
         addProductBottomPartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         addProductBottomPartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         addProductBottomInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
@@ -116,6 +117,14 @@ public class AddProductController implements Initializable {
     }
 
     public void onActionAddProductDeleteButton(ActionEvent actionEvent) {
+
+        Part associatedPart = (Part) addProductTableViewBottom.getSelectionModel().getSelectedItem();
+        if(associatedPart == null) {
+            return;
+        } else {
+            selectedParts.remove(associatedPart);
+        }
+
     }
 
     public void onActionAddProductSaveButton(ActionEvent actionEvent) throws IOException {

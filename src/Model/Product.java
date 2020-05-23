@@ -1,5 +1,6 @@
 package Model;
 
+import View_Controller.AddProductController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -30,7 +31,6 @@ public class Product {
     }
 
     public void setId(int id) {
-        // FIXME: change code because passing O as ID in Main.java
             if(id <= 0) {
                 this.id = autoId.incrementAndGet();
             } else {

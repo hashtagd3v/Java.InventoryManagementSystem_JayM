@@ -151,7 +151,7 @@ public class MainScreenController implements Initializable {
         } else {
             try {
                 int valueOfText;
-                valueOfText = Integer.parseInt(searchText); //FIXME!
+                valueOfText = Integer.parseInt(searchText);
                 lookupProduct(valueOfText);
             } catch (NumberFormatException e) {
                 //ignore exception
