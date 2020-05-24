@@ -165,9 +165,12 @@ public class AddProductController implements Initializable {
 
         Product product = (new Product(id, name, price, stock, min, max));
 
-        // ADD/CREATE NEW PRODUCT:
+        // ADD/REMOVE FROM LIST IN get all associated parts list in PRODUCT:
         for (int i = 0; i < selectedParts.size(); i++) {
             product.addAssociatedPart(selectedParts.get(i));
+        }
+        for (int i = 0; i < selectedParts.size(); i++) {
+            product.deleteAssociatedPart(selectedParts.get(i));
         }
 
         Inventory.addProduct(product);

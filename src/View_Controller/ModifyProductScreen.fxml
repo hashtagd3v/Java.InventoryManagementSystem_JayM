@@ -84,7 +84,7 @@
                   <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="500.0" spacing="10.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#onActionModifyProductSearchButton" prefWidth="70.0" text="Search" />
-                        <TextField fx:id="modifyProductSearchText" />
+                        <TextField fx:id="modifyProductSearchText" onMouseClicked="#onMouseModifyPartSearch" />
                      </children>
                   </HBox>
                   <VBox layoutY="100.0" prefHeight="300.0" prefWidth="450.0">

@@ -90,8 +90,16 @@ public class Product {
 
     public boolean deleteAssociatedPart(Part selectedPart) {
 
-        //TODO change return statement
-        return false;
+        //FIXME:
+
+        if (getAllAssociatedParts().contains(selectedPart)) {
+            return false;
+        } else {
+            getAllAssociatedParts().remove(selectedPart);
+        }
+
+        return true;
+
     }
 
     public ObservableList<Part> getAllAssociatedParts() {
