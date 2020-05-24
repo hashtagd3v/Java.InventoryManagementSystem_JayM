@@ -107,6 +107,7 @@ public class Inventory {
         return null;
     }
 
+    // FIXME: WILL PROBABLY NOT IMPLEMENT:
     public static void updatePart(int index, Part selectedPart) {
 
         int counter = -1;
@@ -120,6 +121,7 @@ public class Inventory {
 
     }
 
+    // FIXME: WILL PROBABLY NOT IMPLEMENT:
     public static void updateProduct(int index, Product newProduct) {
 
         int counter = -1;

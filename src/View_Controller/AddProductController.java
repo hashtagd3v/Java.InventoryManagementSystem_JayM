@@ -156,6 +156,7 @@ public class AddProductController implements Initializable {
     public void saveProduct() {
 
         // GET TEXT FROM FIELDS:
+
         int id = 0;
         String name = addProductNameText.getText();
         double price = Double.parseDouble(addProductPriceText.getText());
@@ -165,12 +166,10 @@ public class AddProductController implements Initializable {
 
         Product product = (new Product(id, name, price, stock, min, max));
 
-        // ADD/REMOVE FROM LIST IN get all associated parts list in PRODUCT:
+        // ADD selectedParts list to getAllAssociatedParts() list in PRODUCT:
+
         for (int i = 0; i < selectedParts.size(); i++) {
             product.addAssociatedPart(selectedParts.get(i));
-        }
-        for (int i = 0; i < selectedParts.size(); i++) {
-            product.deleteAssociatedPart(selectedParts.get(i));
         }
 
         Inventory.addProduct(product);

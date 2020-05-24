@@ -106,7 +106,8 @@ public class MainScreenController implements Initializable {
 
     public void onActionPartModifyButton(ActionEvent actionEvent) throws IOException {
 
-        //USED TO TRANSFER DATA; CANNOT JUST SWITCH SCREENS:
+        // USED TO TRANSFER DATA; CANNOT JUST SWITCH SCREENS - GET CONTROLLER:
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
         loader.load();
@@ -176,8 +177,17 @@ public class MainScreenController implements Initializable {
 
     public void onActionProductModifyButton(ActionEvent actionEvent) throws IOException {
 
+        // USED TO TRANSFER DATA; CANNOT JUST SWITCH SCREENS - GET CONTROLLER:
+
+        FXMLLoader productLoader = new FXMLLoader();
+        productLoader.setLocation(getClass().getResource("/View_Controller/ModifyProductScreen.fxml"));
+        productLoader.load();
+
+        ModifyProductController MPController = productLoader.getController();
+        MPController.getProduct(productTableView.getSelectionModel().getSelectedItem());
+
         stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/ModifyProductScreen.fxml"));
+        Parent scene = productLoader.getRoot();
         stage.setScene(new Scene(scene));
         stage.show();
 
@@ -208,4 +218,5 @@ public class MainScreenController implements Initializable {
         productTableView.setItems(getAllProducts());
 
     }
+
 }

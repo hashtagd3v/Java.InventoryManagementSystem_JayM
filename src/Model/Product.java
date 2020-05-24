@@ -90,15 +90,10 @@ public class Product {
 
     public boolean deleteAssociatedPart(Part selectedPart) {
 
-        //FIXME:
-
         if (getAllAssociatedParts().contains(selectedPart)) {
-            return false;
-        } else {
             getAllAssociatedParts().remove(selectedPart);
         }
-
-        return true;
+        return false;
 
     }
 

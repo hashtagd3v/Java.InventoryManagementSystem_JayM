@@ -1,10 +1,9 @@
 package View_Controller;
 
-import Model.Part;
+import Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -16,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,6 +45,8 @@ public class ModifyProductController implements Initializable {
     Stage stage;
     Parent scene;
     private ObservableList<Part> chosenParts = FXCollections.observableArrayList();
+    private ObservableList<Part> existingParts = FXCollections.observableArrayList();
+    private int currentId;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -61,7 +63,7 @@ public class ModifyProductController implements Initializable {
         modifyProductBottomPartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         modifyProductBottomInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         modifyProductBottomPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-        modifyProductTableViewBottom.setItems(chosenParts);
+        modifyProductTableViewBottom.setItems(existingParts);
 
     }
 
@@ -109,7 +111,7 @@ public class ModifyProductController implements Initializable {
         if(associatedPart == null) {
             return;
         } else {
-            chosenParts.add(associatedPart);
+            existingParts.add(associatedPart);
         }
 
     }
@@ -120,12 +122,36 @@ public class ModifyProductController implements Initializable {
         if(associatedPart == null) {
             return;
         } else {
-            chosenParts.remove(associatedPart);
-        }
+            existingParts.remove(associatedPart);
+            }
 
     }
 
     public void onActionModifyProductSaveButton(ActionEvent actionEvent) throws IOException {
+
+        // GET TEXT FROM TEXT FIELDS:
+        String name = modifyProductNameText.getText();
+        int stock = Integer.parseInt(modifyProductInvText.getText());
+        double price = Double.parseDouble(modifyProductPriceText.getText());
+        int max = Integer.parseInt(modifyProductMaxText.getText());
+        int min = Integer.parseInt(modifyProductMinText.getText());
+
+        Product oldProduct = Inventory.selectProduct(currentId);
+        Inventory.deleteProduct(oldProduct);
+
+        Product newProduct = new Product(currentId, name, price, stock, min, max);
+        Inventory.addProduct(newProduct);
+
+        for (int i = 0; i < existingParts.size(); i++) {
+            newProduct.addAssociatedPart(existingParts.get(i));
+        }
+        for(int i = 0; i < existingParts.size(); i++) {
+            if (newProduct.getAllAssociatedParts().contains(existingParts.get(i))) {
+                continue;
+            } else {
+                newProduct.getAllAssociatedParts().remove(existingParts.get(i));
+            }
+        }
 
         stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
@@ -149,5 +175,21 @@ public class ModifyProductController implements Initializable {
         modifyProductTableViewTop.setItems(getAllParts());
 
     }
+
+    public void getProduct(Product product) {
+
+        currentId = product.getId();
+        modifyProductNameText.setText(product.getName());
+        modifyProductInvText.setText(String.valueOf(product.getStock()));
+        modifyProductPriceText.setText(String.valueOf(product.getPrice()));
+        modifyProductMaxText.setText(String.valueOf(product.getMax()));
+        modifyProductMinText.setText(String.valueOf(product.getMin()));
+
+        for(int i = 0; i < product.getAllAssociatedParts().size(); i++) {
+            existingParts.add(product.getAllAssociatedParts().get(i));
+        }
+
+    }
+
 
 }
