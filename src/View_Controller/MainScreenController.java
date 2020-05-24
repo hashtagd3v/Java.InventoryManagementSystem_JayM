@@ -59,7 +59,7 @@ public class MainScreenController implements Initializable {
 
     public void onActionSearchPartButton(ActionEvent actionEvent) {
 
-        String searchText = partSearchText.getText().toString().trim().toUpperCase();
+        String searchText = partSearchText.getText().trim().toUpperCase();
 
         if(searchText.isEmpty()) {
             partTableView.setItems(getAllParts());
@@ -84,7 +84,7 @@ public class MainScreenController implements Initializable {
                 valueOfText = Integer.parseInt(searchText);
                 lookupPart(valueOfText);
             } catch (NumberFormatException e) {
-                //ignore exception
+                // ignore exception
             }
         }
         partTableView.setItems(getAllFilteredParts());
@@ -151,7 +151,7 @@ public class MainScreenController implements Initializable {
         } else {
             try {
                 int valueOfText;
-                valueOfText = Integer.parseInt(searchText); //FIXME!
+                valueOfText = Integer.parseInt(searchText);
                 lookupProduct(valueOfText);
             } catch (NumberFormatException e) {
                 //ignore exception

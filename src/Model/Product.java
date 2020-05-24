@@ -1,12 +1,17 @@
 package Model;
 
+import View_Controller.AddProductController;
+import View_Controller.ModifyPartController;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Product {
 
-    private ObservableList<Part> associatedParts;
+    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
     private String name;
     private double price;
@@ -16,7 +21,7 @@ public class Product {
     private static AtomicInteger autoId = new AtomicInteger(0);
 
     public Product(int id, String name, double price, int stock, int min, int max) {
-        this.id = autoId.incrementAndGet();
+        setId(id);
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -29,7 +34,11 @@ public class Product {
     }
 
     public void setId(int id) {
-        this.id = id;
+            if(id <= 0) {
+                this.id = autoId.incrementAndGet();
+            } else {
+                this.id = id;
+            }
     }
 
     public String getName() {
@@ -74,12 +83,23 @@ public class Product {
 
     public void addAssociatedPart(Part part) {
 
+        associatedParts.add(part);
+        return;
+
     }
 
     public boolean deleteAssociatedPart(Part selectedPart) {
 
-        //TODO change return statement
-        return false;
+        //FIXME:
+
+        if (getAllAssociatedParts().contains(selectedPart)) {
+            return false;
+        } else {
+            getAllAssociatedParts().remove(selectedPart);
+        }
+
+        return true;
+
     }
 
     public ObservableList<Part> getAllAssociatedParts() {
