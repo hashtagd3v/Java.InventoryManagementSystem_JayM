@@ -19,11 +19,11 @@ public class AlertMessage {
         alert.setHeaderText("Cannot proceed!");
         switch (code) {
             case 1: {
-                alert.setContentText("Inventory min value cannot be greater than or equal to max value.");
+                alert.setContentText("Inventory min value cannot be greater than max value.");
                 break;
             }
             case 2: {
-                alert.setContentText("Inventory max value cannot be less than or equal to min value.");
+                alert.setContentText("Inventory max value cannot be less than min value.");
                 break;
             }
             case 3: {
@@ -64,6 +64,12 @@ public class AlertMessage {
             case 4: {
                 alert.setContentText("Please select a product to modify.");
                 break;
+            }
+            case 5: {
+                alert.setContentText("Inventory min value cannot be greater than max value.");
+            }
+            case 6: {
+                alert.setContentText("Inventory max value cannot be less than min value.");
             }
             default:
                 break;

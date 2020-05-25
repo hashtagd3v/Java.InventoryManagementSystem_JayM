@@ -51,9 +51,9 @@ public class AddPartController implements Initializable {
             int min = Integer.parseInt(addPartMinText.getText());
 
 
-                if (min >= max) {
+                if (min > max) {
                     AlertMessage.errorInPart(1);
-                } else if (max <= min) {
+                } else if (max < min) {
                     AlertMessage.errorInPart(2);
                 } else {
 
@@ -84,7 +84,7 @@ public class AddPartController implements Initializable {
     public void onActionAddPartCancelButton(ActionEvent actionEvent) throws IOException {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Box");
+        alert.setTitle("Confirmation Required");
         alert.setHeaderText("All progress will not be saved.");
         alert.setContentText("Do you wish to proceed?");
 
