@@ -71,32 +71,15 @@ public class ModifyProductController implements Initializable {
 
         String searchText = modifyProductSearchText.getText().trim().toUpperCase();
 
-        if(searchText.isEmpty()) {
-            modifyProductTableViewTop.setItems(getAllParts());
-        }
-
-        int counter;
-        boolean pureTextOnly = false;
-        for (counter = 0; counter < searchText.length(); counter++) {
-            if (Character.isLetter(searchText.charAt(counter))) {
-                pureTextOnly = true;
-                break;
-            } else {
-                pureTextOnly = false;
-            }
-        }
-
-        if(pureTextOnly) {
-            lookupPart(searchText);
-        } else {
+        lookupPart(searchText);
+        if (getAllFilteredParts().size() == 0) {
             try {
-                int valueOfText;
-                valueOfText = Integer.parseInt(searchText);
-                lookupPart(valueOfText);
+                lookupPart(Integer.parseInt(searchText));
             } catch (NumberFormatException e) {
-                // ignore exception
+                // ignore exception due to parseInt()
             }
         }
+
         modifyProductTableViewTop.setItems(getAllFilteredParts());
 
         if (getAllFilteredParts().isEmpty()) {

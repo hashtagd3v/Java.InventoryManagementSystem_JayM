@@ -69,32 +69,15 @@ public class AddProductController implements Initializable {
 
         String searchText = addProductSearchText.getText().trim().toUpperCase();
 
-        if(searchText.isEmpty()) {
-            addProductTableViewTop.setItems(getAllParts());
-        }
-
-        int counter;
-        boolean pureTextOnly = false;
-        for (counter = 0; counter < searchText.length(); counter++) {
-            if (Character.isLetter(searchText.charAt(counter))) {
-                pureTextOnly = true;
-                break;
-            } else {
-                pureTextOnly = false;
-            }
-        }
-
-        if(pureTextOnly) {
-            lookupPart(searchText);
-        } else {
+        lookupPart(searchText);
+        if (getAllFilteredParts().size() == 0) {
             try {
-                int valueOfText;
-                valueOfText = Integer.parseInt(searchText);
-                lookupPart(valueOfText);
+                lookupPart(Integer.parseInt(searchText));
             } catch (NumberFormatException e) {
-                // ignore exception
+                // ignore exception due to parseInt()
             }
         }
+
         addProductTableViewTop.setItems(getAllFilteredParts());
 
         if (getAllFilteredParts().isEmpty()) {
