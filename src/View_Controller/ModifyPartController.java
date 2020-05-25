@@ -129,7 +129,8 @@ public class ModifyPartController implements Initializable {
 
     }
 
-    //CHANGES LABEL WHETHER IN-HOUSE OR OUTSOURCED IS CLICKED:
+    // CHANGES LABEL WHETHER IN-HOUSE OR OUTSOURCED IS CLICKED:
+
     public void isInHouseOrOutSourcedClicked() {
 
         if (inHouseRadioBtn.isSelected()) {

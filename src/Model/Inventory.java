@@ -3,8 +3,6 @@ package Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.StringReader;
-
 public class Inventory {
 
     private static ObservableList<Part> allParts = FXCollections.observableArrayList();

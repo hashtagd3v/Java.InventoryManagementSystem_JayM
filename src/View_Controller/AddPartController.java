@@ -41,8 +41,9 @@ public class AddPartController implements Initializable {
 
     public void onActionAddPartSaveButton(ActionEvent actionEvent) throws IOException {
 
-        // GET TEXT FROM TEXT FIELDS:
         try {
+            // GET TEXT FROM TEXT FIELDS:
+
             int id = 0;
             String name = addPartNameText.getText();
             int stock = Integer.parseInt(addPartInvText.getText());

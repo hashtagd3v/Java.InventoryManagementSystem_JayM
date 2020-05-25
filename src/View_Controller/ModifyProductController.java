@@ -1,6 +1,8 @@
 package View_Controller;
 
-import Model.*;
+import Model.Inventory;
+import Model.Part;
+import Model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.io.IOException;
 import java.net.URL;
