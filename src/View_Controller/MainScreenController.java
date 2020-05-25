@@ -7,16 +7,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static Model.Inventory.*;
@@ -111,7 +109,15 @@ public class MainScreenController implements Initializable {
 
     public void onActionPartDeleteButton(ActionEvent actionEvent) {
 
-        deletePart(partTableView.getSelectionModel().getSelectedItem());
+        Alert alertDelete = new Alert(Alert.AlertType.CONFIRMATION);
+        alertDelete.setTitle("Confirmation Required");
+        alertDelete.setHeaderText("This part will be deleted from the inventory.");
+        alertDelete.setContentText("Do you wish to proceed?");
+
+        Optional<ButtonType> result = alertDelete.showAndWait();
+        if (result.get() == ButtonType.OK){
+            deletePart(partTableView.getSelectionModel().getSelectedItem());
+        }
 
     }
 
@@ -171,7 +177,15 @@ public class MainScreenController implements Initializable {
 
     public void onActionProductDeleteButton(ActionEvent actionEvent) {
 
-        deleteProduct(productTableView.getSelectionModel().getSelectedItem());
+        Alert alertDelete = new Alert(Alert.AlertType.CONFIRMATION);
+        alertDelete.setTitle("Confirmation Required");
+        alertDelete.setHeaderText("This part will be deleted from the inventory.");
+        alertDelete.setContentText("Do you wish to proceed?");
+
+        Optional<ButtonType> result = alertDelete.showAndWait();
+        if (result.get() == ButtonType.OK){
+            deleteProduct(productTableView.getSelectionModel().getSelectedItem());
+        }
 
     }
 
