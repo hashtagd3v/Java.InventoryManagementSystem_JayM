@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -19,6 +16,7 @@ import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static Model.Inventory.*;
@@ -92,6 +90,8 @@ public class ModifyProductController implements Initializable {
 
     public void onActionModifyProductAddButton(ActionEvent actionEvent) {
 
+        //FIXME: CANNOT ADD SAME PART!
+
         Part associatedPart = (Part) modifyProductTableViewTop.getSelectionModel().getSelectedItem();
         if(associatedPart == null) {
             return;
@@ -103,55 +103,84 @@ public class ModifyProductController implements Initializable {
 
     public void onActionModifyProductDeleteButton(ActionEvent actionEvent) {
 
-        Part associatedPart = (Part) modifyProductTableViewBottom.getSelectionModel().getSelectedItem();
-        if(associatedPart == null) {
-            return;
-        } else {
-            existingParts.remove(associatedPart);
+        Alert alertDelete = new Alert(Alert.AlertType.CONFIRMATION);
+        alertDelete.setTitle("Confirmation Required");
+        alertDelete.setHeaderText("This part will be deleted as an associated part of the product.");
+        alertDelete.setContentText("Do you wish to proceed?");
+
+        Optional<ButtonType> result = alertDelete.showAndWait();
+        if (result.get() == ButtonType.OK){
+            Part associatedPart = (Part) modifyProductTableViewBottom.getSelectionModel().getSelectedItem();
+            if(associatedPart == null) {
+                return;
+            } else {
+                existingParts.remove(associatedPart);
             }
+        }
 
     }
 
     public void onActionModifyProductSaveButton(ActionEvent actionEvent) throws IOException {
 
-        // GET TEXT FROM TEXT FIELDS:
+        try {
+            // GET TEXT FROM TEXT FIELDS:
 
-        String name = modifyProductNameText.getText();
-        int stock = Integer.parseInt(modifyProductInvText.getText());
-        double price = Double.parseDouble(modifyProductPriceText.getText());
-        int max = Integer.parseInt(modifyProductMaxText.getText());
-        int min = Integer.parseInt(modifyProductMinText.getText());
+            String name = modifyProductNameText.getText();
+            int stock = Integer.parseInt(modifyProductInvText.getText());
+            double price = Double.parseDouble(modifyProductPriceText.getText());
+            int max = Integer.parseInt(modifyProductMaxText.getText());
+            int min = Integer.parseInt(modifyProductMinText.getText());
 
-        Product oldProduct = Inventory.selectProduct(currentId);
-        Inventory.deleteProduct(oldProduct);
-
-        Product newProduct = new Product(currentId, name, price, stock, min, max);
-        Inventory.addProduct(newProduct);
-
-        for (int i = 0; i < existingParts.size(); i++) {
-            newProduct.addAssociatedPart(existingParts.get(i));
-        }
-        for(int i = 0; i < existingParts.size(); i++) {
-            if (newProduct.getAllAssociatedParts().contains(existingParts.get(i))) {
-                continue;
+            if (min > max) {
+                AlertMessage.errorInProduct(5);
+            } else if (max < min) {
+                AlertMessage.errorInProduct(6);
+            } else if (existingParts.isEmpty()) {
+                AlertMessage.errorInProduct(1);
             } else {
-                newProduct.deleteAssociatedPart(existingParts.get(i));
-            }
-        }
 
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+                Product oldProduct = Inventory.selectProduct(currentId);
+                Inventory.deleteProduct(oldProduct);
+
+                Product newProduct = new Product(currentId, name, price, stock, min, max);
+
+                for (int i = 0; i < existingParts.size(); i++) {
+                    newProduct.addAssociatedPart(existingParts.get(i));
+                }
+                for (int i = 0; i < existingParts.size(); i++) {
+                    if (newProduct.getAllAssociatedParts().contains(existingParts.get(i))) {
+                        continue;
+                    } else {
+                        newProduct.deleteAssociatedPart(existingParts.get(i));
+                    }
+                }
+                Inventory.addProduct(newProduct);
+
+                stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+            }
+        } catch (NumberFormatException e) {
+            AlertMessage.errorInProduct(3);
+        }
 
     }
 
     public void onActionModifyProductCancelButton(ActionEvent actionEvent) throws IOException {
 
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Required");
+        alert.setHeaderText("All progress will not be saved.");
+        alert.setContentText("Do you wish to proceed?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
 
     }
 

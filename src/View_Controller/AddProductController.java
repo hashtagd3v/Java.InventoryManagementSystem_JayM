@@ -88,6 +88,8 @@ public class AddProductController implements Initializable {
 
     public void onActionAddProductAddButton(ActionEvent actionEvent) {
 
+        //FIXME: CANNOT ADD SAME PART!
+
         Part associatedPart = (Part) addProductTableViewTop.getSelectionModel().getSelectedItem();
         if(associatedPart == null) {
             return;
@@ -99,11 +101,19 @@ public class AddProductController implements Initializable {
 
     public void onActionAddProductDeleteButton(ActionEvent actionEvent) {
 
-        Part associatedPart = (Part) addProductTableViewBottom.getSelectionModel().getSelectedItem();
-        if(associatedPart == null) {
-            return;
-        } else {
-            selectedParts.remove(associatedPart);
+        Alert alertDelete = new Alert(Alert.AlertType.CONFIRMATION);
+        alertDelete.setTitle("Confirmation Required");
+        alertDelete.setHeaderText("This part will be deleted as an associated part of the product.");
+        alertDelete.setContentText("Do you wish to proceed?");
+
+        Optional<ButtonType> result = alertDelete.showAndWait();
+        if (result.get() == ButtonType.OK){
+            Part associatedPart = (Part) addProductTableViewBottom.getSelectionModel().getSelectedItem();
+            if(associatedPart == null) {
+                return;
+            } else {
+                selectedParts.remove(associatedPart);
+            }
         }
 
     }
