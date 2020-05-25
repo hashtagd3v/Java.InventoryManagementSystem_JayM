@@ -41,6 +41,7 @@ public class ModifyPartController implements Initializable {
     public void onActionModifyPartSaveButton(ActionEvent actionEvent) throws IOException {
 
         // GET TEXT FROM TEXT FIELDS:
+
         String name = modifyPartNameText.getText();
         int stock = Integer.parseInt(modifyPartInvText.getText());
         double price = Double.parseDouble(modifyPartPriceText.getText());
@@ -48,6 +49,7 @@ public class ModifyPartController implements Initializable {
         int min = Integer.parseInt(modifyPartMinText.getText());
 
         // DETERMINE IF IN-HOUSE OR OUTSOURCED PART:
+
         try {
             Part oldPart = Inventory.selectPart(currentId);
             if (inHouseRadioBtn.isSelected()) {

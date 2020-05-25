@@ -1,9 +1,7 @@
 package View_Controller;
 
-import Model.Inventory;
 import Model.Part;
 import Model.Product;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

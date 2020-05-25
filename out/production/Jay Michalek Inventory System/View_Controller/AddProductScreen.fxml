@@ -61,13 +61,13 @@
                   </TextField>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <TextField fx:id="addProductMaxText" maxHeight="30.0" maxWidth="70.0" promptText="Max">
+                        <TextField fx:id="addProductMaxText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" promptText="Max">
                            <font>
                               <Font name="System Italic" size="10.0" />
                            </font>
                         </TextField>
-                        <Label text="Min" />
-                        <TextField fx:id="addProductMinText" maxHeight="30.0" maxWidth="70.0" promptText="Min">
+                        <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" text="Min" />
+                        <TextField fx:id="addProductMinText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" promptText="Min">
                            <font>
                               <Font name="System Italic" size="10.0" />
                            </font>

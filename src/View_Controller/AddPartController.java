@@ -1,8 +1,9 @@
 package View_Controller;
 
-import Model.*;
+import Model.InHousePart;
+import Model.Inventory;
+import Model.OutSourcedPart;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -33,7 +34,8 @@ public class AddPartController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //DEFAULT VIEW IS IN-HOUSE RADIO BUTTON CLICKED WITH TEXT MACHINE ID:
+        // DEFAULT VIEW IS IN-HOUSE RADIO BUTTON CLICKED WITH TEXT MACHINE ID:
+
         addPartMachineCompanyLabel.setText("Machine ID");
 
         isInHouseOrOutSourcedClicked();
@@ -42,7 +44,8 @@ public class AddPartController implements Initializable {
 
     public void onActionAddPartSaveButton(ActionEvent actionEvent) throws IOException {
 
-        //GET TEXT FROM TEXT FIELDS:
+        // GET TEXT FROM TEXT FIELDS:
+
         int id = 0;
         String name = addPartNameText.getText();
         int stock = Integer.parseInt(addPartInvText.getText());
@@ -51,7 +54,8 @@ public class AddPartController implements Initializable {
         int min = Integer.parseInt(addPartMinText.getText());
 
 
-        //DETERMINE IF IN-HOUSE OR OUTSOURCED PART:
+        // DETERMINE IF IN-HOUSE OR OUTSOURCED PART:
+
         if (inHouseRadioBtn.isSelected()) {
             int machineId = Integer.parseInt(addPartMachineCompanyText.getText());
             Inventory.addPart(new InHousePart(id, name, price, stock, min, max, machineId));
@@ -60,7 +64,8 @@ public class AddPartController implements Initializable {
             Inventory.addPart(new OutSourcedPart(id, name, price, stock, min, max, companyName));
         }
 
-        //SWITCHES SCREEN BACK TO MAIN SCREEN:
+        // SWITCHES SCREEN BACK TO MAIN SCREEN:
+
         stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
         stage.setScene(new Scene(scene));
@@ -89,7 +94,8 @@ public class AddPartController implements Initializable {
 
         }
 
-    //CHANGES LABEL WHETHER IN-HOUSE OR OUTSOURCED IS CLICKED:
+    // CHANGES LABEL WHETHER IN-HOUSE OR OUTSOURCED IS CLICKED:
+
     public void isInHouseOrOutSourcedClicked() {
 
         if (inHouseRadioBtn.isSelected()) {

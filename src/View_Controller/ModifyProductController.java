@@ -52,6 +52,7 @@ public class ModifyProductController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         // DISPLAY ALL PARTS DATA ON TOP TABLE VIEW:
+
         modifyProductTopPartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         modifyProductTopPartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         modifyProductTopInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
@@ -59,6 +60,7 @@ public class ModifyProductController implements Initializable {
         modifyProductTableViewTop.setItems(getAllParts());
 
         // DISPLAY ASSOCIATED PARTS ON BOTTOM TABLE VIEW WHEN ADD BUTTON IS CLICKED:
+
         modifyProductBottomPartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         modifyProductBottomPartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         modifyProductBottomInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
@@ -113,6 +115,7 @@ public class ModifyProductController implements Initializable {
     public void onActionModifyProductSaveButton(ActionEvent actionEvent) throws IOException {
 
         // GET TEXT FROM TEXT FIELDS:
+
         String name = modifyProductNameText.getText();
         int stock = Integer.parseInt(modifyProductInvText.getText());
         double price = Double.parseDouble(modifyProductPriceText.getText());
@@ -132,7 +135,7 @@ public class ModifyProductController implements Initializable {
             if (newProduct.getAllAssociatedParts().contains(existingParts.get(i))) {
                 continue;
             } else {
-                newProduct.getAllAssociatedParts().remove(existingParts.get(i));
+                newProduct.deleteAssociatedPart(existingParts.get(i));
             }
         }
 

@@ -72,6 +72,9 @@
                      <padding>
                         <Insets left="50.0" />
                      </padding>
+                     <font>
+                        <Font size="11.0" />
+                     </font>
                   </Label>
                   <TextField fx:id="modifyPartIdText" editable="false" maxHeight="-Infinity" maxWidth="95.0" minHeight="-Infinity" prefHeight="25.0" promptText="Auto Gen - Disabled" GridPane.columnIndex="1" GridPane.vgrow="NEVER">
                      <font>

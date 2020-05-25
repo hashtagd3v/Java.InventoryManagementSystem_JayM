@@ -1,12 +1,8 @@
 package Model;
 
-import View_Controller.AddProductController;
-import View_Controller.ModifyPartController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Product {
@@ -18,7 +14,7 @@ public class Product {
     private int stock;
     private int min;
     private int max;
-    private static AtomicInteger autoId = new AtomicInteger(0);
+    private static AtomicInteger autoId = new AtomicInteger(1000);
 
     public Product(int id, String name, double price, int stock, int min, int max) {
         setId(id);

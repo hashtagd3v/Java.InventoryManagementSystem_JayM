@@ -50,6 +50,7 @@ public class AddProductController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         // DISPLAY ALL PARTS DATA ON TOP TABLE VIEW:
+
         addProductTopPartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         addProductTopPartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         addProductTopInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
@@ -57,6 +58,7 @@ public class AddProductController implements Initializable {
         addProductTableViewTop.setItems(getAllParts());
 
         // DISPLAY ASSOCIATED PARTS ON BOTTOM TABLE VIEW WHEN ADD BUTTON IS CLICKED:
+
         addProductBottomPartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         addProductBottomPartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         addProductBottomInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
