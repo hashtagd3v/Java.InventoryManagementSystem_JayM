@@ -90,11 +90,20 @@ public class ModifyProductController implements Initializable {
 
     public void onActionModifyProductAddButton(ActionEvent actionEvent) {
 
-        //FIXME: CANNOT ADD SAME PART!
+        // CHECKS IF PART IS ALREADY IN ASSOCIATED PARTS LIST:
+
+        boolean existsInList = false;
 
         Part associatedPart = (Part) modifyProductTableViewTop.getSelectionModel().getSelectedItem();
+
+        if (existingParts.contains(associatedPart)) {
+            existsInList = true;
+        }
+
         if(associatedPart == null) {
             return;
+        } else if (existsInList) {
+            AlertMessage.errorInProduct(7);
         } else {
             existingParts.add(associatedPart);
         }

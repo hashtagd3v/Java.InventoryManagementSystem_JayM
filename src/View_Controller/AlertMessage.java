@@ -71,6 +71,9 @@ public class AlertMessage {
             case 6: {
                 alert.setContentText("Inventory max value cannot be less than min value.");
             }
+            case 7: {
+                alert.setContentText("Duplicate part.");
+            }
             default:
                 break;
         }

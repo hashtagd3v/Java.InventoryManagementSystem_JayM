@@ -123,7 +123,7 @@ public class MainScreenController implements Initializable {
 
     public void onActionSearchProductButton(ActionEvent actionEvent) {
 
-        String searchText = productSearchText.getText().toString().trim().toUpperCase();
+        String searchText = productSearchText.getText().trim().toUpperCase();
 
         lookupProduct(searchText);
         if (getAllFilteredProducts().size() == 0) {

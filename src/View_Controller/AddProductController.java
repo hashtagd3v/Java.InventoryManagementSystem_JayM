@@ -88,12 +88,21 @@ public class AddProductController implements Initializable {
 
     public void onActionAddProductAddButton(ActionEvent actionEvent) {
 
-        //FIXME: CANNOT ADD SAME PART!
+        // CHECKS IF PART IS ALREADY IN ASSOCIATED PARTS LIST:
+
+        boolean existsInList = false;
 
         Part associatedPart = (Part) addProductTableViewTop.getSelectionModel().getSelectedItem();
+
+        if (selectedParts.contains(associatedPart)) {
+            existsInList = true;
+        }
+
         if(associatedPart == null) {
             return;
-        } else {
+        } else if (existsInList) {
+            AlertMessage.errorInProduct(7);
+        } else{
             selectedParts.add(associatedPart);
         }
 
