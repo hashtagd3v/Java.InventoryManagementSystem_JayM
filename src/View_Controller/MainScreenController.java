@@ -7,16 +7,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static Model.Inventory.*;
@@ -89,29 +87,43 @@ public class MainScreenController implements Initializable {
 
         // USED TO TRANSFER DATA; CANNOT JUST SWITCH SCREENS - GET CONTROLLER:
 
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
-        loader.load();
+        Part selectedPart = partTableView.getSelectionModel().getSelectedItem();
 
-        ModifyPartController MODController = loader.getController();
-        MODController.getPart(partTableView.getSelectionModel().getSelectedItem());
+        if (selectedPart == null) {
+            AlertMessage.errorInPart(4);
+        } else {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
+            loader.load();
 
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        Parent scene = loader.getRoot();
-        stage.setScene(new Scene(scene));
-        stage.show();
+            ModifyPartController MODController = loader.getController();
+            MODController.getPart(selectedPart);
+
+            stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+            Parent scene = loader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
 
     }
 
     public void onActionPartDeleteButton(ActionEvent actionEvent) {
 
-        deletePart(partTableView.getSelectionModel().getSelectedItem());
+        Alert alertDelete = new Alert(Alert.AlertType.CONFIRMATION);
+        alertDelete.setTitle("Confirmation Required");
+        alertDelete.setHeaderText("This part will be deleted from the inventory.");
+        alertDelete.setContentText("Do you wish to proceed?");
+
+        Optional<ButtonType> result = alertDelete.showAndWait();
+        if (result.get() == ButtonType.OK){
+            deletePart(partTableView.getSelectionModel().getSelectedItem());
+        }
 
     }
 
     public void onActionSearchProductButton(ActionEvent actionEvent) {
 
-        String searchText = productSearchText.getText().toString().trim().toUpperCase();
+        String searchText = productSearchText.getText().trim().toUpperCase();
 
         lookupProduct(searchText);
         if (getAllFilteredProducts().size() == 0) {
@@ -143,23 +155,37 @@ public class MainScreenController implements Initializable {
 
         // USED TO TRANSFER DATA; CANNOT JUST SWITCH SCREENS - GET CONTROLLER:
 
-        FXMLLoader productLoader = new FXMLLoader();
-        productLoader.setLocation(getClass().getResource("/View_Controller/ModifyProductScreen.fxml"));
-        productLoader.load();
+        Product selectedProduct = productTableView.getSelectionModel().getSelectedItem();
 
-        ModifyProductController MPController = productLoader.getController();
-        MPController.getProduct(productTableView.getSelectionModel().getSelectedItem());
+        if (selectedProduct == null) {
+            AlertMessage.errorInProduct(4);
+        } else {
+            FXMLLoader productLoader = new FXMLLoader();
+            productLoader.setLocation(getClass().getResource("/View_Controller/ModifyProductScreen.fxml"));
+            productLoader.load();
 
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        Parent scene = productLoader.getRoot();
-        stage.setScene(new Scene(scene));
-        stage.show();
+            ModifyProductController MPController = productLoader.getController();
+            MPController.getProduct(selectedProduct);
+
+            stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+            Parent scene = productLoader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
 
     }
 
     public void onActionProductDeleteButton(ActionEvent actionEvent) {
 
-        deleteProduct(productTableView.getSelectionModel().getSelectedItem());
+        Alert alertDelete = new Alert(Alert.AlertType.CONFIRMATION);
+        alertDelete.setTitle("Confirmation Required");
+        alertDelete.setHeaderText("This part will be deleted from the inventory.");
+        alertDelete.setContentText("Do you wish to proceed?");
+
+        Optional<ButtonType> result = alertDelete.showAndWait();
+        if (result.get() == ButtonType.OK){
+            deleteProduct(productTableView.getSelectionModel().getSelectedItem());
+        }
 
     }
 

@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ModifyPartController implements Initializable {
@@ -40,37 +41,42 @@ public class ModifyPartController implements Initializable {
 
     public void onActionModifyPartSaveButton(ActionEvent actionEvent) throws IOException {
 
-        // GET TEXT FROM TEXT FIELDS:
-
-        String name = modifyPartNameText.getText();
-        int stock = Integer.parseInt(modifyPartInvText.getText());
-        double price = Double.parseDouble(modifyPartPriceText.getText());
-        int max = Integer.parseInt(modifyPartMaxText.getText());
-        int min = Integer.parseInt(modifyPartMinText.getText());
-
-        // DETERMINE IF IN-HOUSE OR OUTSOURCED PART:
-
         try {
-            Part oldPart = Inventory.selectPart(currentId);
-            if (inHouseRadioBtn.isSelected()) {
-                int machineId = Integer.parseInt(modifyPartMachineCompanyText.getText());
-                Inventory.deletePart(oldPart);
-                Inventory.addPart(new InHousePart(currentId, name, price, stock, min, max, machineId));
-            } else if (outSourcedRadioBtn.isSelected()) {
-                String companyName = modifyPartMachineCompanyText.getText();
-                Inventory.deletePart(oldPart);
-                Inventory.addPart(new OutSourcedPart(currentId, name, price, stock, min, max, companyName));
+            // GET TEXT FROM TEXT FIELDS:
+
+            String name = modifyPartNameText.getText();
+            int stock = Integer.parseInt(modifyPartInvText.getText());
+            double price = Double.parseDouble(modifyPartPriceText.getText());
+            int max = Integer.parseInt(modifyPartMaxText.getText());
+            int min = Integer.parseInt(modifyPartMinText.getText());
+
+            if (min > max) {
+                AlertMessage.errorInPart(1);
+            } else if (max < min) {
+                AlertMessage.errorInPart(2);
+            } else {
+
+                // DETERMINE IF IN-HOUSE OR OUTSOURCED PART:
+
+                Part oldPart = Inventory.selectPart(currentId);
+                if (inHouseRadioBtn.isSelected()) {
+                    int machineId = Integer.parseInt(modifyPartMachineCompanyText.getText());
+                    Inventory.deletePart(oldPart);
+                    Inventory.addPart(new InHousePart(currentId, name, price, stock, min, max, machineId));
+                } else if (outSourcedRadioBtn.isSelected()) {
+                    String companyName = modifyPartMachineCompanyText.getText();
+                    Inventory.deletePart(oldPart);
+                    Inventory.addPart(new OutSourcedPart(currentId, name, price, stock, min, max, companyName));
+                }
+
+                stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
             }
         } catch (NumberFormatException e) {
-            // FIXME: return error/pop up when wrong type of parameter is submitted!
-            return;
-            // ignore exception due to parseInt()
+            AlertMessage.errorInPart(3);
         }
-
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
 
     }
 
@@ -96,10 +102,18 @@ public class ModifyPartController implements Initializable {
 
     public void onActionModifyPartCancelButton(ActionEvent actionEvent) throws IOException {
 
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Required");
+        alert.setHeaderText("All progress will not be saved.");
+        alert.setContentText("Do you wish to proceed?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
 
     }
 
@@ -115,7 +129,8 @@ public class ModifyPartController implements Initializable {
 
     }
 
-    //CHANGES LABEL WHETHER IN-HOUSE OR OUTSOURCED IS CLICKED:
+    // CHANGES LABEL WHETHER IN-HOUSE OR OUTSOURCED IS CLICKED:
+
     public void isInHouseOrOutSourcedClicked() {
 
         if (inHouseRadioBtn.isSelected()) {

@@ -1,20 +1,21 @@
 package Main;
 
-import Model.*;
+import Model.InHousePart;
+import Model.Inventory;
+import Model.OutSourcedPart;
+import Model.Product;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
-        primaryStage.setTitle("Jay Michalek Inventory System");
+        primaryStage.setTitle("Jay M Inventory System");
         primaryStage.setScene(new Scene(root, 950, 500));
         primaryStage.show();
     }

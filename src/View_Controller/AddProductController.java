@@ -8,16 +8,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static Model.Inventory.*;
@@ -90,10 +88,21 @@ public class AddProductController implements Initializable {
 
     public void onActionAddProductAddButton(ActionEvent actionEvent) {
 
+        // CHECKS IF PART IS ALREADY IN ASSOCIATED PARTS LIST:
+
+        boolean existsInList = false;
+
         Part associatedPart = (Part) addProductTableViewTop.getSelectionModel().getSelectedItem();
+
+        if (selectedParts.contains(associatedPart)) {
+            existsInList = true;
+        }
+
         if(associatedPart == null) {
             return;
-        } else {
+        } else if (existsInList) {
+            AlertMessage.errorInProduct(7);
+        } else{
             selectedParts.add(associatedPart);
         }
 
@@ -101,32 +110,78 @@ public class AddProductController implements Initializable {
 
     public void onActionAddProductDeleteButton(ActionEvent actionEvent) {
 
-        Part associatedPart = (Part) addProductTableViewBottom.getSelectionModel().getSelectedItem();
-        if(associatedPart == null) {
-            return;
-        } else {
-            selectedParts.remove(associatedPart);
+        Alert alertDelete = new Alert(Alert.AlertType.CONFIRMATION);
+        alertDelete.setTitle("Confirmation Required");
+        alertDelete.setHeaderText("This part will be deleted as an associated part of the product.");
+        alertDelete.setContentText("Do you wish to proceed?");
+
+        Optional<ButtonType> result = alertDelete.showAndWait();
+        if (result.get() == ButtonType.OK){
+            Part associatedPart = (Part) addProductTableViewBottom.getSelectionModel().getSelectedItem();
+            if(associatedPart == null) {
+                return;
+            } else {
+                selectedParts.remove(associatedPart);
+            }
         }
 
     }
 
     public void onActionAddProductSaveButton(ActionEvent actionEvent) throws IOException {
 
-        saveProduct();
+        // GET TEXT FROM FIELDS:
+        try {
+            int id = 0;
+            String name = addProductNameText.getText();
+            double price = Double.parseDouble(addProductPriceText.getText());
+            int stock = Integer.parseInt(addProductInvText.getText());
+            int min = Integer.parseInt(addProductMinText.getText());
+            int max = Integer.parseInt(addProductMaxText.getText());
 
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+            if (min > max) {
+                AlertMessage.errorInProduct(5);
+            } else if (max < min) {
+                AlertMessage.errorInProduct(6);
+            } else if (selectedParts.isEmpty()) {
+                AlertMessage.errorInProduct(1);
+            } else {
+
+                Product product = (new Product(id, name, price, stock, min, max));
+
+                // ADD selectedParts list to getAllAssociatedParts() list in PRODUCT:
+
+                for (int i = 0; i < selectedParts.size(); i++) {
+                    product.addAssociatedPart(selectedParts.get(i));
+                }
+
+                Inventory.addProduct(product);
+
+                stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+
+            }
+        } catch (NumberFormatException e) {
+            AlertMessage.errorInProduct(3);
+        }
 
     }
 
     public void onActionAddProductCancelButton(ActionEvent actionEvent) throws IOException {
 
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Required");
+        alert.setHeaderText("All progress will not be saved.");
+        alert.setContentText("Do you wish to proceed?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
 
     }
 
@@ -134,30 +189,6 @@ public class AddProductController implements Initializable {
 
         getAllFilteredParts().clear();
         addProductTableViewTop.setItems(getAllParts());
-
-    }
-
-
-    public void saveProduct() {
-
-        // GET TEXT FROM FIELDS:
-
-        int id = 0;
-        String name = addProductNameText.getText();
-        double price = Double.parseDouble(addProductPriceText.getText());
-        int stock = Integer.parseInt(addProductInvText.getText());
-        int min = Integer.parseInt(addProductMinText.getText());
-        int max = Integer.parseInt(addProductMaxText.getText());
-
-        Product product = (new Product(id, name, price, stock, min, max));
-
-        // ADD selectedParts list to getAllAssociatedParts() list in PRODUCT:
-
-        for (int i = 0; i < selectedParts.size(); i++) {
-            product.addAssociatedPart(selectedParts.get(i));
-        }
-
-        Inventory.addProduct(product);
 
     }
 

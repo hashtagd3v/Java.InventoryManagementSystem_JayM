@@ -1,7 +1,5 @@
 package Model;
 
-import View_Controller.ModifyPartController;
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Part {

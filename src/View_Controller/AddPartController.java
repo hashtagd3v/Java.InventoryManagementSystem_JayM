@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddPartController implements Initializable {
@@ -34,51 +35,67 @@ public class AddPartController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // DEFAULT VIEW IS IN-HOUSE RADIO BUTTON CLICKED WITH TEXT MACHINE ID:
-
-        addPartMachineCompanyLabel.setText("Machine ID");
-
         isInHouseOrOutSourcedClicked();
 
     }
 
     public void onActionAddPartSaveButton(ActionEvent actionEvent) throws IOException {
 
-        // GET TEXT FROM TEXT FIELDS:
+        try {
+            // GET TEXT FROM TEXT FIELDS:
 
-        int id = 0;
-        String name = addPartNameText.getText();
-        int stock = Integer.parseInt(addPartInvText.getText());
-        double price = Double.parseDouble(addPartPriceText.getText());
-        int max = Integer.parseInt(addPartMaxText.getText());
-        int min = Integer.parseInt(addPartMinText.getText());
+            int id = 0;
+            String name = addPartNameText.getText();
+            int stock = Integer.parseInt(addPartInvText.getText());
+            double price = Double.parseDouble(addPartPriceText.getText());
+            int max = Integer.parseInt(addPartMaxText.getText());
+            int min = Integer.parseInt(addPartMinText.getText());
 
 
-        // DETERMINE IF IN-HOUSE OR OUTSOURCED PART:
+                if (min > max) {
+                    AlertMessage.errorInPart(1);
+                } else if (max < min) {
+                    AlertMessage.errorInPart(2);
+                } else {
 
-        if (inHouseRadioBtn.isSelected()) {
-            int machineId = Integer.parseInt(addPartMachineCompanyText.getText());
-            Inventory.addPart(new InHousePart(id, name, price, stock, min, max, machineId));
-        } else if (outSourcedRadioBtn.isSelected()){
-            String companyName = addPartMachineCompanyText.getText();
-            Inventory.addPart(new OutSourcedPart(id, name, price, stock, min, max, companyName));
+                    // DETERMINE IF IN-HOUSE OR OUTSOURCED PART:
+
+                    if (inHouseRadioBtn.isSelected()) {
+                        int machineId = Integer.parseInt(addPartMachineCompanyText.getText());
+                        Inventory.addPart(new InHousePart(id, name, price, stock, min, max, machineId));
+                    } else if (outSourcedRadioBtn.isSelected()) {
+                        String companyName = addPartMachineCompanyText.getText();
+                        Inventory.addPart(new OutSourcedPart(id, name, price, stock, min, max, companyName));
+                    }
+
+                    // SWITCHES SCREEN BACK TO MAIN SCREEN:
+
+                    stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                    scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
+                    stage.setScene(new Scene(scene));
+                    stage.show();
+                }
+        } catch (NumberFormatException e) {
+                AlertMessage.errorInPart(3);
         }
 
-        // SWITCHES SCREEN BACK TO MAIN SCREEN:
-
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
 
     }
 
     public void onActionAddPartCancelButton(ActionEvent actionEvent) throws IOException {
 
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Required");
+        alert.setHeaderText("All progress will not be saved.");
+        alert.setContentText("Do you wish to proceed?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
 
     }
 
