@@ -89,17 +89,23 @@ public class MainScreenController implements Initializable {
 
         // USED TO TRANSFER DATA; CANNOT JUST SWITCH SCREENS - GET CONTROLLER:
 
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
-        loader.load();
+        Part selectedPart = partTableView.getSelectionModel().getSelectedItem();
 
-        ModifyPartController MODController = loader.getController();
-        MODController.getPart(partTableView.getSelectionModel().getSelectedItem());
+        if (selectedPart == null) {
+            AlertMessage.errorInPart(4);
+        } else {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
+            loader.load();
 
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        Parent scene = loader.getRoot();
-        stage.setScene(new Scene(scene));
-        stage.show();
+            ModifyPartController MODController = loader.getController();
+            MODController.getPart(selectedPart);
+
+            stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+            Parent scene = loader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
 
     }
 
@@ -143,17 +149,23 @@ public class MainScreenController implements Initializable {
 
         // USED TO TRANSFER DATA; CANNOT JUST SWITCH SCREENS - GET CONTROLLER:
 
-        FXMLLoader productLoader = new FXMLLoader();
-        productLoader.setLocation(getClass().getResource("/View_Controller/ModifyProductScreen.fxml"));
-        productLoader.load();
+        Product selectedProduct = productTableView.getSelectionModel().getSelectedItem();
 
-        ModifyProductController MPController = productLoader.getController();
-        MPController.getProduct(productTableView.getSelectionModel().getSelectedItem());
+        if (selectedProduct == null) {
+            AlertMessage.errorInProduct(4);
+        } else {
+            FXMLLoader productLoader = new FXMLLoader();
+            productLoader.setLocation(getClass().getResource("/View_Controller/ModifyProductScreen.fxml"));
+            productLoader.load();
 
-        stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        Parent scene = productLoader.getRoot();
-        stage.setScene(new Scene(scene));
-        stage.show();
+            ModifyProductController MPController = productLoader.getController();
+            MPController.getProduct(selectedProduct);
+
+            stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+            Parent scene = productLoader.getRoot();
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
 
     }
 
