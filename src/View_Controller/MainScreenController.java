@@ -1,9 +1,7 @@
 package View_Controller;
 
-import Model.Inventory;
 import Model.Part;
 import Model.Product;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -61,32 +59,15 @@ public class MainScreenController implements Initializable {
 
         String searchText = partSearchText.getText().trim().toUpperCase();
 
-        if(searchText.isEmpty()) {
-            partTableView.setItems(getAllParts());
-        }
-
-        int counter;
-        boolean pureTextOnly = false;
-        for (counter = 0; counter < searchText.length(); counter++) {
-            if (Character.isLetter(searchText.charAt(counter))) {
-                pureTextOnly = true;
-                break;
-            } else {
-                pureTextOnly = false;
-            }
-        }
-
-        if(pureTextOnly) {
-            lookupPart(searchText);
-        } else {
+        lookupPart(searchText);
+        if (getAllFilteredParts().size() == 0) {
             try {
-                int valueOfText;
-                valueOfText = Integer.parseInt(searchText);
-                lookupPart(valueOfText);
+                lookupPart(Integer.parseInt(searchText));
             } catch (NumberFormatException e) {
-                // ignore exception
+                // ignore exception due to parseInt()
             }
         }
+
         partTableView.setItems(getAllFilteredParts());
 
         if (getAllFilteredParts().isEmpty()) {
@@ -106,7 +87,8 @@ public class MainScreenController implements Initializable {
 
     public void onActionPartModifyButton(ActionEvent actionEvent) throws IOException {
 
-        //USED TO TRANSFER DATA; CANNOT JUST SWITCH SCREENS:
+        // USED TO TRANSFER DATA; CANNOT JUST SWITCH SCREENS - GET CONTROLLER:
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/View_Controller/ModifyPartScreen.fxml"));
         loader.load();
@@ -131,32 +113,15 @@ public class MainScreenController implements Initializable {
 
         String searchText = productSearchText.getText().toString().trim().toUpperCase();
 
-        if(searchText.isEmpty()) {
-            productTableView.setItems(getAllProducts());
-        }
-
-        int counter;
-        boolean pureTextOnly = false;
-        for (counter = 0; counter < searchText.length(); counter++) {
-            if (Character.isLetter(searchText.charAt(counter))) {
-                pureTextOnly = true;
-                break;
-            } else {
-                pureTextOnly = false;
-            }
-        }
-
-        if(pureTextOnly) {
-            lookupProduct(searchText);
-        } else {
+        lookupProduct(searchText);
+        if (getAllFilteredProducts().size() == 0) {
             try {
-                int valueOfText;
-                valueOfText = Integer.parseInt(searchText);
-                lookupProduct(valueOfText);
+                lookupProduct(Integer.parseInt(searchText));
             } catch (NumberFormatException e) {
-                //ignore exception
+                // ignore exception due to parseInt()
             }
         }
+
         productTableView.setItems(getAllFilteredProducts());
 
         if (getAllFilteredProducts().isEmpty()) {
@@ -176,8 +141,17 @@ public class MainScreenController implements Initializable {
 
     public void onActionProductModifyButton(ActionEvent actionEvent) throws IOException {
 
+        // USED TO TRANSFER DATA; CANNOT JUST SWITCH SCREENS - GET CONTROLLER:
+
+        FXMLLoader productLoader = new FXMLLoader();
+        productLoader.setLocation(getClass().getResource("/View_Controller/ModifyProductScreen.fxml"));
+        productLoader.load();
+
+        ModifyProductController MPController = productLoader.getController();
+        MPController.getProduct(productTableView.getSelectionModel().getSelectedItem());
+
         stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/ModifyProductScreen.fxml"));
+        Parent scene = productLoader.getRoot();
         stage.setScene(new Scene(scene));
         stage.show();
 
@@ -208,4 +182,5 @@ public class MainScreenController implements Initializable {
         productTableView.setItems(getAllProducts());
 
     }
+
 }

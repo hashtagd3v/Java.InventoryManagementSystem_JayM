@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.ModifyProductController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_Controller.ModifyProductController">
    <children>
       <AnchorPane layoutX="1.0" layoutY="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="300.0" style="-fx-border-style: solid; -fx-border-radius: 10px;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -66,7 +66,7 @@
                               <Font name="System Italic" size="10.0" />
                            </font>
                         </TextField>
-                        <Label text="Min" />
+                        <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="40.0" text="Min" />
                         <TextField fx:id="modifyProductMinText" maxHeight="30.0" maxWidth="70.0">
                            <font>
                               <Font name="System Italic" size="10.0" />
@@ -79,19 +79,19 @@
                   <Insets left="10.0" />
                </padding>
             </GridPane>
-            <AnchorPane layoutX="280.0" layoutY="-10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0">
+            <AnchorPane layoutX="280.0" layoutY="-10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="600.0">
                <children>
-                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="500.0" spacing="10.0">
+                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="600.0" spacing="10.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#onActionModifyProductSearchButton" prefWidth="70.0" text="Search" />
-                        <TextField fx:id="modifyProductSearchText" />
+                        <TextField fx:id="modifyProductSearchText" onMouseClicked="#onMouseModifyPartSearch" />
                      </children>
                   </HBox>
-                  <VBox layoutY="100.0" prefHeight="300.0" prefWidth="450.0">
+                  <VBox layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="381.0" prefWidth="520.0">
                      <children>
                         <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="500.0">
                            <children>
-                              <TableView fx:id="modifyProductTableViewTop" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="450.0">
+                              <TableView fx:id="modifyProductTableViewTop" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="550.0">
                                 <columns>
                                   <TableColumn fx:id="modifyProductTopPartIdCol" prefWidth="75.0" text="Part ID" />
                                   <TableColumn fx:id="modifyProductTopPartNameCol" prefWidth="75.0" text="Part Name" />
@@ -107,7 +107,7 @@
                               </TableView>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="450.0">
+                        <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="550.0">
                            <children>
                               <Button alignment="CENTER" mnemonicParsing="false" onAction="#onActionModifyProductAddButton" prefWidth="70.0" text="Add" />
                            </children>
@@ -117,7 +117,7 @@
                         </HBox>
                         <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="500.0">
                            <children>
-                              <TableView fx:id="modifyProductTableViewBottom" prefHeight="75.0" prefWidth="450.0">
+                              <TableView fx:id="modifyProductTableViewBottom" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="550.0">
                                 <columns>
                                   <TableColumn fx:id="modifyProductBottomPartIdCol" prefWidth="75.0" text="Part ID" />
                                   <TableColumn fx:id="modifyProductBottomPartNameCol" prefWidth="75.0" text="Part Name" />
@@ -133,7 +133,7 @@
                               </TableView>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="500.0">
+                        <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="580.0">
                            <children>
                               <Button mnemonicParsing="false" onAction="#onActionModifyProductDeleteButton" prefWidth="70.0" text="Delete" />
                            </children>
@@ -144,7 +144,7 @@
                               <Insets right="30.0" />
                            </padding>
                         </HBox>
-                        <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="500.0" spacing="10.0">
+                        <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="580.0" spacing="10.0">
                            <children>
                               <Button minWidth="70.0" mnemonicParsing="false" onAction="#onActionModifyProductSaveButton" text="Save" />
                               <Button minWidth="70.0" mnemonicParsing="false" onAction="#onActionModifyProductCancelButton" text="Cancel" />

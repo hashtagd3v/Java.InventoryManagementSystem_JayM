@@ -50,6 +50,7 @@ public class AddProductController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         // DISPLAY ALL PARTS DATA ON TOP TABLE VIEW:
+
         addProductTopPartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         addProductTopPartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         addProductTopInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
@@ -57,6 +58,7 @@ public class AddProductController implements Initializable {
         addProductTableViewTop.setItems(getAllParts());
 
         // DISPLAY ASSOCIATED PARTS ON BOTTOM TABLE VIEW WHEN ADD BUTTON IS CLICKED:
+
         addProductBottomPartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         addProductBottomPartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         addProductBottomInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
@@ -69,32 +71,15 @@ public class AddProductController implements Initializable {
 
         String searchText = addProductSearchText.getText().trim().toUpperCase();
 
-        if(searchText.isEmpty()) {
-            addProductTableViewTop.setItems(getAllParts());
-        }
-
-        int counter;
-        boolean pureTextOnly = false;
-        for (counter = 0; counter < searchText.length(); counter++) {
-            if (Character.isLetter(searchText.charAt(counter))) {
-                pureTextOnly = true;
-                break;
-            } else {
-                pureTextOnly = false;
-            }
-        }
-
-        if(pureTextOnly) {
-            lookupPart(searchText);
-        } else {
+        lookupPart(searchText);
+        if (getAllFilteredParts().size() == 0) {
             try {
-                int valueOfText;
-                valueOfText = Integer.parseInt(searchText);
-                lookupPart(valueOfText);
+                lookupPart(Integer.parseInt(searchText));
             } catch (NumberFormatException e) {
-                // ignore exception
+                // ignore exception due to parseInt()
             }
         }
+
         addProductTableViewTop.setItems(getAllFilteredParts());
 
         if (getAllFilteredParts().isEmpty()) {
@@ -156,6 +141,7 @@ public class AddProductController implements Initializable {
     public void saveProduct() {
 
         // GET TEXT FROM FIELDS:
+
         int id = 0;
         String name = addProductNameText.getText();
         double price = Double.parseDouble(addProductPriceText.getText());
@@ -165,12 +151,10 @@ public class AddProductController implements Initializable {
 
         Product product = (new Product(id, name, price, stock, min, max));
 
-        // ADD/REMOVE FROM LIST IN get all associated parts list in PRODUCT:
+        // ADD selectedParts list to getAllAssociatedParts() list in PRODUCT:
+
         for (int i = 0; i < selectedParts.size(); i++) {
             product.addAssociatedPart(selectedParts.get(i));
-        }
-        for (int i = 0; i < selectedParts.size(); i++) {
-            product.deleteAssociatedPart(selectedParts.get(i));
         }
 
         Inventory.addProduct(product);

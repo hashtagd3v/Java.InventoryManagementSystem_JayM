@@ -3,6 +3,8 @@ package Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.StringReader;
+
 public class Inventory {
 
     private static ObservableList<Part> allParts = FXCollections.observableArrayList();
@@ -25,7 +27,7 @@ public class Inventory {
         }
 
         for (Part part : Inventory.getAllParts()) {
-            if (part.getId() == partId) {
+            if ((String.valueOf(part.getId())).contains(String.valueOf(partId))) {
                 Inventory.getAllFilteredParts().add(part);
             }
         }
@@ -41,7 +43,7 @@ public class Inventory {
         }
 
         for (Product product : Inventory.getAllProducts()) {
-            if (product.getId() == productId) {
+            if ((String.valueOf(product.getId())).contains(String.valueOf(productId))) {
                 Inventory.getAllFilteredProducts().add(product);
             }
         }
@@ -107,6 +109,7 @@ public class Inventory {
         return null;
     }
 
+    // FIXME: WILL PROBABLY NOT IMPLEMENT:
     public static void updatePart(int index, Part selectedPart) {
 
         int counter = -1;
@@ -120,6 +123,7 @@ public class Inventory {
 
     }
 
+    // FIXME: WILL PROBABLY NOT IMPLEMENT:
     public static void updateProduct(int index, Product newProduct) {
 
         int counter = -1;

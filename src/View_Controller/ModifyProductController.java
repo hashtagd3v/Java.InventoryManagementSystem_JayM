@@ -1,10 +1,9 @@
 package View_Controller;
 
-import Model.Part;
+import Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -16,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,11 +45,14 @@ public class ModifyProductController implements Initializable {
     Stage stage;
     Parent scene;
     private ObservableList<Part> chosenParts = FXCollections.observableArrayList();
+    private ObservableList<Part> existingParts = FXCollections.observableArrayList();
+    private int currentId;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         // DISPLAY ALL PARTS DATA ON TOP TABLE VIEW:
+
         modifyProductTopPartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         modifyProductTopPartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         modifyProductTopInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
@@ -57,11 +60,12 @@ public class ModifyProductController implements Initializable {
         modifyProductTableViewTop.setItems(getAllParts());
 
         // DISPLAY ASSOCIATED PARTS ON BOTTOM TABLE VIEW WHEN ADD BUTTON IS CLICKED:
+
         modifyProductBottomPartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         modifyProductBottomPartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         modifyProductBottomInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         modifyProductBottomPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-        modifyProductTableViewBottom.setItems(chosenParts);
+        modifyProductTableViewBottom.setItems(existingParts);
 
     }
 
@@ -69,32 +73,15 @@ public class ModifyProductController implements Initializable {
 
         String searchText = modifyProductSearchText.getText().trim().toUpperCase();
 
-        if(searchText.isEmpty()) {
-            modifyProductTableViewTop.setItems(getAllParts());
-        }
-
-        int counter;
-        boolean pureTextOnly = false;
-        for (counter = 0; counter < searchText.length(); counter++) {
-            if (Character.isLetter(searchText.charAt(counter))) {
-                pureTextOnly = true;
-                break;
-            } else {
-                pureTextOnly = false;
-            }
-        }
-
-        if(pureTextOnly) {
-            lookupPart(searchText);
-        } else {
+        lookupPart(searchText);
+        if (getAllFilteredParts().size() == 0) {
             try {
-                int valueOfText;
-                valueOfText = Integer.parseInt(searchText);
-                lookupPart(valueOfText);
+                lookupPart(Integer.parseInt(searchText));
             } catch (NumberFormatException e) {
-                // ignore exception
+                // ignore exception due to parseInt()
             }
         }
+
         modifyProductTableViewTop.setItems(getAllFilteredParts());
 
         if (getAllFilteredParts().isEmpty()) {
@@ -109,7 +96,7 @@ public class ModifyProductController implements Initializable {
         if(associatedPart == null) {
             return;
         } else {
-            chosenParts.add(associatedPart);
+            existingParts.add(associatedPart);
         }
 
     }
@@ -120,12 +107,37 @@ public class ModifyProductController implements Initializable {
         if(associatedPart == null) {
             return;
         } else {
-            chosenParts.remove(associatedPart);
-        }
+            existingParts.remove(associatedPart);
+            }
 
     }
 
     public void onActionModifyProductSaveButton(ActionEvent actionEvent) throws IOException {
+
+        // GET TEXT FROM TEXT FIELDS:
+
+        String name = modifyProductNameText.getText();
+        int stock = Integer.parseInt(modifyProductInvText.getText());
+        double price = Double.parseDouble(modifyProductPriceText.getText());
+        int max = Integer.parseInt(modifyProductMaxText.getText());
+        int min = Integer.parseInt(modifyProductMinText.getText());
+
+        Product oldProduct = Inventory.selectProduct(currentId);
+        Inventory.deleteProduct(oldProduct);
+
+        Product newProduct = new Product(currentId, name, price, stock, min, max);
+        Inventory.addProduct(newProduct);
+
+        for (int i = 0; i < existingParts.size(); i++) {
+            newProduct.addAssociatedPart(existingParts.get(i));
+        }
+        for(int i = 0; i < existingParts.size(); i++) {
+            if (newProduct.getAllAssociatedParts().contains(existingParts.get(i))) {
+                continue;
+            } else {
+                newProduct.deleteAssociatedPart(existingParts.get(i));
+            }
+        }
 
         stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View_Controller/MainScreen.fxml"));
@@ -149,5 +161,21 @@ public class ModifyProductController implements Initializable {
         modifyProductTableViewTop.setItems(getAllParts());
 
     }
+
+    public void getProduct(Product product) {
+
+        currentId = product.getId();
+        modifyProductNameText.setText(product.getName());
+        modifyProductInvText.setText(String.valueOf(product.getStock()));
+        modifyProductPriceText.setText(String.valueOf(product.getPrice()));
+        modifyProductMaxText.setText(String.valueOf(product.getMax()));
+        modifyProductMinText.setText(String.valueOf(product.getMin()));
+
+        for(int i = 0; i < product.getAllAssociatedParts().size(); i++) {
+            existingParts.add(product.getAllAssociatedParts().get(i));
+        }
+
+    }
+
 
 }
