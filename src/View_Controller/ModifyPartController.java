@@ -54,6 +54,8 @@ public class ModifyPartController implements Initializable {
                 AlertMessage.errorInPart(1);
             } else if (max < min) {
                 AlertMessage.errorInPart(2);
+            } else if(stock > max || stock < min) {
+                AlertMessage.errorInPart(5);
             } else {
 
                 // DETERMINE IF IN-HOUSE OR OUTSOURCED PART:

@@ -26,6 +26,9 @@ public class AlertMessage {
                 alert.setContentText("Please select a part to modify.");
                 break;
             }
+            case 5: {
+                alert.setContentText("Inventory must be between min and max specified values.");
+            }
             default:
                 break;
         }
@@ -65,6 +68,12 @@ public class AlertMessage {
             }
             case 7: {
                 alert.setContentText("Duplicate part.");
+            }
+            case 8: {
+                alert.setContentText("Inventory must be between min and max specified values.");
+            }
+            case 9: {
+                alert.setContentText("Price must be greater than total amount of associated parts.");
             }
             default:
                 break;

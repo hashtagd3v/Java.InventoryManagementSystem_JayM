@@ -46,6 +46,7 @@ public class ModifyProductController implements Initializable {
     private ObservableList<Part> chosenParts = FXCollections.observableArrayList();
     private ObservableList<Part> existingParts = FXCollections.observableArrayList();
     private int currentId;
+    private double totalPartPrice;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -125,6 +126,7 @@ public class ModifyProductController implements Initializable {
                 return;
             } else {
                 existingParts.remove(associatedPart);
+                resetTotalPartPrice();
             }
         }
 
@@ -140,6 +142,7 @@ public class ModifyProductController implements Initializable {
             double price = Double.parseDouble(modifyProductPriceText.getText());
             int max = Integer.parseInt(modifyProductMaxText.getText());
             int min = Integer.parseInt(modifyProductMinText.getText());
+            getPartsTotalAmt();
 
             if (min > max) {
                 AlertMessage.errorInProduct(5);
@@ -147,6 +150,10 @@ public class ModifyProductController implements Initializable {
                 AlertMessage.errorInProduct(6);
             } else if (existingParts.isEmpty()) {
                 AlertMessage.errorInProduct(1);
+            } else if (stock > max || stock < min) {
+                AlertMessage.errorInProduct(8);
+            } else if (price < totalPartPrice) {
+                AlertMessage.errorInProduct(9);
             } else {
 
                 Product oldProduct = Inventory.selectProduct(currentId);
@@ -174,6 +181,8 @@ public class ModifyProductController implements Initializable {
         } catch (NumberFormatException e) {
             AlertMessage.errorInProduct(3);
         }
+
+        resetTotalPartPrice();
 
     }
 
@@ -214,6 +223,20 @@ public class ModifyProductController implements Initializable {
             existingParts.add(product.getAllAssociatedParts().get(i));
         }
 
+    }
+
+    public void getPartsTotalAmt() {
+
+        for (Part part : existingParts) {
+
+            totalPartPrice = totalPartPrice + part.getPrice();
+        }
+        System.out.println(totalPartPrice);
+    }
+
+    private void resetTotalPartPrice() {
+
+        totalPartPrice = 0;
     }
 
 
