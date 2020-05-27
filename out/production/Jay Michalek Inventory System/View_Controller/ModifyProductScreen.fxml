@@ -44,30 +44,30 @@
                         <Font name="System Italic" size="9.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="modifyProductNameText" maxHeight="30.0" maxWidth="95.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="modifyProductNameText" maxHeight="30.0" maxWidth="95.0" promptText="Name" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Italic" size="10.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="modifyProductInvText" maxHeight="30.0" maxWidth="70.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextField fx:id="modifyProductInvText" maxHeight="30.0" maxWidth="70.0" promptText="Inv" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Italic" size="10.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="modifyProductPriceText" maxHeight="30.0" maxWidth="70.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <TextField fx:id="modifyProductPriceText" maxHeight="30.0" maxWidth="70.0" promptText="Price" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <font>
                         <Font name="System Italic" size="10.0" />
                      </font>
                   </TextField>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <TextField fx:id="modifyProductMaxText" maxHeight="30.0" maxWidth="70.0">
+                        <TextField fx:id="modifyProductMaxText" maxHeight="30.0" maxWidth="70.0" promptText="Max">
                            <font>
                               <Font name="System Italic" size="10.0" />
                            </font>
                         </TextField>
                         <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="40.0" text="Min" />
-                        <TextField fx:id="modifyProductMinText" maxHeight="30.0" maxWidth="70.0">
+                        <TextField fx:id="modifyProductMinText" maxHeight="30.0" maxWidth="70.0" promptText="Min">
                            <font>
                               <Font name="System Italic" size="10.0" />
                            </font>

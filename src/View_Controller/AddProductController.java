@@ -43,6 +43,7 @@ public class AddProductController implements Initializable {
     Stage stage;
     Parent scene;
     private ObservableList<Part> selectedParts = FXCollections.observableArrayList();
+    private double totalPartPrice;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -122,6 +123,7 @@ public class AddProductController implements Initializable {
                 return;
             } else {
                 selectedParts.remove(associatedPart);
+                resetTotalPartPrice();
             }
         }
 
@@ -137,6 +139,7 @@ public class AddProductController implements Initializable {
             int stock = Integer.parseInt(addProductInvText.getText());
             int min = Integer.parseInt(addProductMinText.getText());
             int max = Integer.parseInt(addProductMaxText.getText());
+            getPartsTotalAmt();
 
             if (min > max) {
                 AlertMessage.errorInProduct(5);
@@ -144,6 +147,10 @@ public class AddProductController implements Initializable {
                 AlertMessage.errorInProduct(6);
             } else if (selectedParts.isEmpty()) {
                 AlertMessage.errorInProduct(1);
+            } else if (stock > max || stock < min) {
+                AlertMessage.errorInProduct(8);
+            } else if (price < totalPartPrice) {
+                AlertMessage.errorInProduct(9);
             } else {
 
                 Product product = (new Product(id, name, price, stock, min, max));
@@ -165,6 +172,8 @@ public class AddProductController implements Initializable {
         } catch (NumberFormatException e) {
             AlertMessage.errorInProduct(3);
         }
+
+        resetTotalPartPrice();
 
     }
 
@@ -190,6 +199,20 @@ public class AddProductController implements Initializable {
         getAllFilteredParts().clear();
         addProductTableViewTop.setItems(getAllParts());
 
+    }
+
+    public void getPartsTotalAmt() {
+
+        for (Part part : selectedParts) {
+
+            totalPartPrice = totalPartPrice + part.getPrice();
+        }
+        System.out.println(totalPartPrice);
+    }
+
+    private void resetTotalPartPrice() {
+
+        totalPartPrice = 0;
     }
 
 }
