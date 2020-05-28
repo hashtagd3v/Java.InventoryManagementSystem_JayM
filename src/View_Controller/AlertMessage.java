@@ -62,15 +62,19 @@ public class AlertMessage {
             }
             case 5: {
                 alert.setContentText("Inventory min value cannot be greater than max value.");
+                break;
             }
             case 6: {
                 alert.setContentText("Inventory max value cannot be less than min value.");
+                break;
             }
             case 7: {
                 alert.setContentText("Duplicate part.");
+                break;
             }
             case 8: {
                 alert.setContentText("Inventory must be between min and max specified values.");
+                break;
             }
             case 9: {
                 alert.setContentText("Price must be greater than total amount of associated parts.");
