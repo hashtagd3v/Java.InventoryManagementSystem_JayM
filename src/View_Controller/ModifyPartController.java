@@ -121,19 +121,19 @@ public class ModifyPartController implements Initializable {
 
     public void onActionModifyPartInHouseRadioButton(ActionEvent actionEvent) {
 
-        isInHouseOrOutSourcedClicked();
+        getPartSubClass();
 
     }
 
     public void onActionModifyPartOutsourcedRadioButton(ActionEvent actionEvent) {
 
-        isInHouseOrOutSourcedClicked();
+        getPartSubClass();
 
     }
 
     // CHANGES LABEL WHETHER IN-HOUSE OR OUTSOURCED IS CLICKED:
 
-    public void isInHouseOrOutSourcedClicked() {
+    public void getPartSubClass() {
 
         if (inHouseRadioBtn.isSelected()) {
             modifyPartMachineCompanyLabel.setText("Machine ID");
